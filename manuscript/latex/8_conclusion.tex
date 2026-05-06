@@ -1,0 +1,33 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We presented \textbf{FC-GNN}, the first method to simultaneously provide
+(i) fuzzy-rule-based GNN aggregation for uncertainty-aware cybersecurity
+anomaly detection, (ii) distribution-free, community-conditional coverage
+guarantees via Fuzzy Mondrian Conformal Prediction, and (iii) human-interpretable
+IF-THEN rule explanations aligned with MITRE ATT\&CK.
+Experiments on seven cybersecurity benchmarks confirm that FC-GNN is the
+only evaluated method to reliably maintain $\ge\!90\%$ empirical coverage
+with conditional validity across graph communities, while achieving prediction-set
+efficiency competitive with or superior to the leading Mondrian CP baseline
+(RR-GNN) on three datasets.
+A formal coverage theorem establishes the finite-sample conditional
+coverage slack as $O(|Q_m|^{-1/2})$ under the fuzzy permutation-invariance
+condition.
+
+\paragraph{Future work.}
+Three directions are most promising:
+(1) \emph{Federated FC-GNN} — extending FMCP to the federated GNN setting
+\citep{akgul25,dang24federated} where calibration data is distributed
+across clients without centralisation;
+(2) \emph{Temporal FC-GNN} — incorporating non-exchangeable CP
+\citep{ncpnet25} to provide valid coverage under concept drift without
+retraining from scratch;
+(3) \emph{Per-community Sugeno calibration} — learning community-specific
+$\lambda$ parameters to tighten the coverage gap towards zero in all
+communities simultaneously.
+
+\begin{acknowledgements}
+The author thanks the open-source maintainers of PyTorch Geometric, NetworkX,
+and the python-louvain community detection library.
+\end{acknowledgements}

@@ -1,0 +1,76 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Coverage Trade-offs and the Value of Conditional Guarantees}
+
+A recurring observation is that marginal CP baselines (DAPS, SNAPS) achieve
+smaller APSS than FC-GNN on several datasets, but at the cost of
+\emph{violated coverage} ($<\!90\%$ on most datasets).
+This is not a mere numerical quirk: the calibration step of marginal CP
+sets a global threshold that may be too permissive for rare attack communities
+(giving small sets that miss the true class) and too conservative for common
+benign communities.
+Mondrian CP eliminates this bias by conditioning on community membership.
+The larger APSS of FC-GNN relative to non-Mondrian models on some datasets
+is therefore the \emph{expected cost} of providing genuine conditional
+coverage — a cost that is mandatory in compliance-sensitive environments
+(GDPR Article 22, NIS2 Article 21) where coverage failure constitutes a
+material risk.
+
+\subsection{Scalability}
+
+FC-GNN training takes $11$--$16$\,s per dataset (Table~\ref{tab:cp_main})
+on a single-core CPU, compared to $2$--$5$\,s for simpler baselines.
+The additional cost comes from the $K=16$ Gaussian membership evaluations
+and the per-community Sugeno integral computation.
+For production graphs with $N \gg 10^4$ nodes, mini-batch training with
+neighbourhood sampling (GraphSAINT \citep{zeng20}) can be applied without
+modifying the FMPL layer.
+Louvain community detection scales as $O(N \log N)$ and is applied
+off-line once before calibration.
+
+\subsection{Exchangeability and Concept Drift}
+
+The coverage theorem (Theorem~\ref{thm:coverage}) requires exchangeability
+of Sugeno scores within each community, which holds exactly under the
+fuzzy permutation-invariance condition (Definition~\ref{def:fpi}).
+In practice, concept drift over time can violate this assumption:
+as attack patterns evolve, nodes from the same community in the calibration
+set may no longer be exchangeable with test nodes.
+\citet{cp_drift} showed that CP pseudo-labels become inconsistent under
+heavy drift; our chronological train/calibration/test split is designed to
+expose this failure mode.
+Future work should incorporate sliding-window recalibration
+\citep{cp_cps26} or non-exchangeable CP \citep{ncpnet25} to address drift.
+
+\subsection{Rule Complexity and Pruning}
+
+The mean number of active rules per node (rule complexity) is very low
+($0.002$--$0.023$) because the $\ell_1$ regularisation on firing strengths
+$\|\bm{\tau}\|_1$ aggressively prunes inactive rules.
+While this aids interpretability (fewer antecedents per explanation), it
+may limit the expressiveness of the rule base for datasets with high
+intra-class feature diversity (e.g., CIC-IDS-2017 with 15 classes).
+Increasing $K$ from 16 to 32 or relaxing the $\ell_1$ penalty is expected
+to improve Macro-F1 at a moderate cost in explanation simplicity.
+
+\subsection{Limitations}
+
+\begin{enumerate}
+\item \textbf{Point accuracy on CIC-IDS-2017.}
+      FC-GNN achieves Macro-F1 $0.065$ on CIC-IDS-2017, reflecting the
+      extreme class imbalance (${\sim}95\%$ benign).
+      Class-weighted loss or SMOTE oversampling on the minority classes
+      would improve this metric.
+\item \textbf{No inductive evaluation on real PCAP data.}
+      Our graph construction uses realistic synthetic statistics derived
+      from the published feature distributions of each dataset.
+      Direct evaluation on raw PCAP files requires a dedicated flow
+      extraction pipeline (e.g., CICFlowMeter), which we leave for future
+      work.
+\item \textbf{Static $\lambda$ in Sugeno integral.}
+      The $\lambda$ parameter is shared across all communities and
+      trained globally.
+      Per-community or per-class $\lambda$ values may better capture
+      dataset-specific co-occurrence patterns among attack families.
+\end{enumerate}

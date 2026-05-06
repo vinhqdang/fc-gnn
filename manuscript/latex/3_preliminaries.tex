@@ -1,0 +1,73 @@
+\section{Preliminaries}
+\label{sec:prelim}
+
+\subsection{Graph Neural Networks}
+
+Let $G = (\calV, \calE, \bm{X})$ be an attributed graph with node set
+$\calV$ ($|\calV|=N$), edge set $\calE$, and feature matrix
+$\bm{X} \in \R^{N \times F}$.
+A standard GNN with $L$ message-passing layers computes node embeddings via
+\[
+  \bm{h}_v^{(\ell+1)}
+  = \text{UPDATE}\!\left(\bm{h}_v^{(\ell)},\;
+    \text{AGG}\!\left(\{\bm{h}_u^{(\ell)} : u \in \calN(v)\}\right)\right),
+\]
+where $\calN(v)$ denotes the neighbourhood of node $v$,
+$\bm{h}_v^{(0)} = \bm{x}_v$, and the final embedding $\bm{h}_v^{(L)}$ is
+passed to a classification head.
+
+\subsection{Conformal Prediction}
+
+Given a calibration set $\mathcal{D}_\text{cal} = \{(x_i, y_i)\}_{i=1}^n$
+and a nonconformity score function $s : \mathcal{X} \times \mathcal{Y}
+\to \R$ (higher score $\Leftrightarrow$ less conforming), the CP prediction
+set at error rate $\alpha$ is
+\[
+  \Calpha(x) = \bigl\{y \in \mathcal{Y} : s(x,y) \le \hat{q}\bigr\},
+\]
+where $\hat{q}$ is the $\lceil (n+1)(1-\alpha) \rceil / n$ empirical
+quantile of $\{s(x_i, y_i)\}_{i=1}^n$.
+Under exchangeability of the calibration and test scores,
+$\Prob(y_\text{test} \in \Calpha(x_\text{test})) \ge 1-\alpha$
+\citep{angelopoulos21}.
+
+\paragraph{Mondrian CP.}
+Mondrian CP \citep{vovk05} extends the above by conditioning on a
+\emph{taxon} $\tau(x)$, computing a separate quantile per taxon:
+\[
+  \hat{q}_\tau = \hat{Q}_{1-\alpha}\bigl(\{s(x_i,y_i) : \tau(x_i)=\tau\}\bigr).
+\]
+This yields \emph{conditional coverage}: for each taxon $\tau$,
+$\Prob(y \in \Calpha(x) \mid \tau(x) = \tau) \ge 1-\alpha$.
+
+\subsection{Fuzzy Sets and Sugeno Integral}
+
+A \emph{fuzzy set} $A$ in universe $U$ is characterised by a membership
+function $\mu_A : U \to [0,1]$.
+A \emph{fuzzy measure} $g : 2^U \to [0,1]$ satisfies $g(\emptyset)=0$,
+$g(U)=1$, and monotonicity.
+The \emph{$\lambda$-fuzzy measure} \citep{sugeno74} is defined recursively:
+for $A, B$ disjoint,
+$g_\lambda(A \cup B) = g_\lambda(A) + g_\lambda(B) +
+\lambda\, g_\lambda(A)\, g_\lambda(B)$,
+with $\lambda \in (-1, \infty)$ chosen so that $g_\lambda(U)=1$.
+The \emph{Sugeno fuzzy integral} of $h : U \to [0,1]$ with respect to
+$g_\lambda$ is
+\[
+  \mathcal{S}_\lambda(h, g_\lambda)
+  = \sup_{A \subseteq U}\bigl[\min\bigl(\min_{u \in A} h(u),\;
+    g_\lambda(A)\bigr)\bigr].
+\]
+Efficient computation sorts $h$ in descending order and takes the maximum
+over the cumulative $\lambda$-measure prefix products.
+
+\subsection{Graph Permutation-Invariance for CP}
+
+\citet{cfgnn} established that CP is valid for GNN node classification
+when the nonconformity scores are \emph{jointly exchangeable under graph
+automorphisms} — i.e., any permutation $\pi$ of nodes that preserves the
+graph structure also preserves the joint distribution of scores.
+\citet{rrgnn} extended this to the Mondrian setting using graph community
+structure as the taxon.
+We extend both results to the fuzzy-nonconformity-score case in
+Section~\ref{sec:theorem}.

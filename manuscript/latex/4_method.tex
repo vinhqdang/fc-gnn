@@ -1,0 +1,229 @@
+\section{FC-GNN: Fuzzy-Conformal Graph Neural Networks}
+\label{sec:method}
+
+Figure~\ref{fig:architecture} shows the FC-GNN architecture.
+The model comprises three stages: (i) $L$ \emph{fuzzy message-passing layers}
+that produce a per-node fuzzy membership distribution $\bm{\mu}_v \in [0,1]^C$,
+(ii) an MLP output head, and (iii) post-hoc \emph{Fuzzy Mondrian Conformal
+Prediction} calibration that wraps the trained model without retraining.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\textwidth]{architecture}
+  \caption{FC-GNN architecture.  Left: $L$ Fuzzy Message-Passing Layers
+           (FMPL) compute Gaussian membership functions, product T-norm
+           rule-firing strengths, and centroid defuzzification.
+           Centre: MLP head produces fuzzy class memberships $\bm{\mu}_v$.
+           Right: Fuzzy Mondrian CP partitions calibration nodes via Louvain
+           clustering, computes Sugeno nonconformity scores, and returns a
+           calibrated prediction set $\Calpha(v)$.}
+  \label{fig:architecture}
+\end{figure*}
+
+\subsection{Fuzzy Message-Passing Layer (FMPL)}
+\label{sec:fmpl}
+
+Let $\bm{h}_v^{(\ell)} \in \R^d$ be the embedding of node $v$ at layer
+$\ell$, with $\bm{h}_v^{(0)} = W_0 \bm{x}_v$.
+The FMPL replaces the standard mean/sum aggregation with a fuzzy-rule-based
+combiner operating as follows.
+
+\paragraph{Gaussian membership functions.}
+For each rule $k \in \{1, \ldots, K\}$, define a learnable Gaussian
+membership function over the $d$-dimensional embedding space:
+\[
+  \mu_k(\bm{h}) = \exp\!\Bigl(
+    -\tfrac{1}{2}\bigl\|\text{diag}(\bm{\sigma}_k)^{-1}(\bm{h}-\bm{c}_k)
+    \bigr\|^2\Bigr),
+\]
+where centres $\bm{c}_k \in \R^d$ and log-widths
+$\log\bm{\sigma}_k \in \R^d$ are learnable parameters.
+
+\paragraph{Product T-norm rule firing.}
+For node $v$ at layer $\ell$, the firing strength of rule $k$ is
+\[
+  \tau_k(v) = \prod_{u \in \calN(v)} \mu_k\bigl(\bm{h}_u^{(\ell)}\bigr),
+\]
+using the product T-norm, which is differentiable and suitable for
+gradient-based learning.
+
+\paragraph{Centroid defuzzification.}
+Each rule $k$ has a consequent weight vector $\bm{w}_k \in \R^{d'}$.
+The updated embedding is computed via Mamdani-style defuzzification:
+\[
+  \bm{h}_v^{(\ell+1)}
+  = \frac{\sum_{k=1}^K \tau_k(v)\, \bm{w}_k}{\sum_{k=1}^K \tau_k(v)}
+    + W_\text{res}\,\bm{h}_v^{(\ell)},
+\]
+where the residual term $W_\text{res}\bm{h}_v^{(\ell)}$ stabilises
+gradient flow across layers.
+An $\ell_1$ regularisation penalty on $\tau_k$ prunes inactive rules during
+training.
+
+\paragraph{MLP output head.}
+After $L$ FMPL layers, an MLP with ReLU activation and dropout maps
+$\bm{h}_v^{(L)}$ to logits, and a final softmax layer produces the
+\emph{fuzzy class membership distribution}
+$\bm{\mu}_v = (\mu_v^1, \ldots, \mu_v^C) \in [0,1]^C$,
+$\sum_c \mu_v^c = 1$.
+
+\subsection{Fuzzy Mondrian Conformal Prediction (FMCP)}
+\label{sec:fmcp}
+
+FMCP is applied post-hoc to a trained FC-GNN and proceeds in two phases:
+calibration and inference.
+
+\subsubsection{Sugeno Nonconformity Score}
+
+For calibration node $v$ with true label $y_v$, define the
+\emph{fuzzy nonconformity score}
+\[
+  s_v = 1 - \mathcal{S}_\lambda(\bm{\mu}_v, y_v),
+\]
+where $\mathcal{S}_\lambda(\bm{\mu}_v, y_v)$ is the Sugeno integral of the
+membership distribution $\bm{\mu}_v$ with respect to the $\lambda$-fuzzy
+measure, evaluated at the hypothesis ``the true class is $y_v$''.
+Concretely, letting $\mu_{(1)} \ge \mu_{(2)} \ge \cdots \ge \mu_{(C)}$
+be the sorted memberships and $g_{\lambda,k}$ the cumulative $\lambda$-measure
+over the top-$k$ classes:
+\[
+  \mathcal{S}_\lambda(\bm{\mu}_v, y_v)
+  = \Bigl(\max_{k=1}^C \min\bigl(\mu_{(k)},\, g_{\lambda,k}\bigr)\Bigr)
+    \cdot \frac{\mu_v^{y_v}}{\max_c \mu_v^c + \varepsilon}.
+\]
+The scalar $\lambda$ is a learned parameter of the Sugeno module.
+The second factor down-weights the integral by the relative membership of
+the true class, so that $s_v$ is small when $\mu_v^{y_v}$ is large
+(high confidence, correctly predicted) and large otherwise.
+
+\subsubsection{Community Partition and Per-Community Quantiles}
+
+We run Louvain community detection \citep{blondel08} on the full graph to
+obtain a partition $\{Q_1, \ldots, Q_M\}$ of the node set.
+Calibration nodes $V_\text{cal}$ are assigned to their community, and for
+each community $Q_m$ the quantile
+\[
+  \hat{q}_{Q_m}
+  = \hat{Q}_{1-\alpha}\bigl(\{s_v : v \in V_\text{cal} \cap Q_m\}\bigr)
+\]
+is computed at the $\lceil(|V_\text{cal} \cap Q_m|+1)(1-\alpha)\rceil$-th
+order statistic.
+Communities smaller than a minimum size threshold fall back to the global
+quantile to maintain coverage.
+
+\subsubsection{Prediction Set Construction}
+
+At test time, node $v$ is assigned to its Louvain community $Q_m$ (or the
+nearest community by feature-centroid distance for inductive nodes).
+The fuzzy prediction set is
+\[
+  \Calpha(v)
+  = \bigl\{c \in \{1,\ldots,C\} :
+    1 - \mathcal{S}_\lambda(\bm{\mu}_v, c) \le \hat{q}_{Q_m}\bigr\}.
+\]
+
+\subsection{Coverage Theorem}
+\label{sec:theorem}
+
+We now state the formal coverage guarantee for FC-GNN.
+
+\begin{definition}[Fuzzy Permutation Invariance]
+\label{def:fpi}
+Let $\pi$ be any permutation of $V$ preserving the graph structure
+(i.e., $(u,v) \in \calE \Leftrightarrow (\pi(u),\pi(v)) \in \calE$).
+The FC-GNN is \emph{fuzzy permutation-invariant} if the joint distribution
+of Sugeno scores $(s_v)_{v \in V}$ is invariant under $\pi$ for all such $\pi$.
+\end{definition}
+
+\begin{assumption}[Consistent Community Assignment]
+\label{ass:community}
+For any node $v$ in the test set, the Louvain community assignment is
+consistent with the assignment of its calibration neighbours with probability
+at least $1 - \delta_0$ for a known $\delta_0 > 0$.
+\end{assumption}
+
+\begin{theorem}[FC-GNN Coverage]
+\label{thm:coverage}
+Let $G$ satisfy Definition~\ref{def:fpi} and Assumption~\ref{ass:community}.
+For any test node $v$ assigned to community $Q_m$ at inference time:
+\[
+  \Prob\bigl(y_v \in \Calpha(v)\bigr) \ge 1 - \alpha.
+\]
+Furthermore, under Assumption~\ref{ass:community}:
+\[
+  \Prob\bigl(y_v \in \Calpha(v) \mid v \in Q_m\bigr)
+  \ge 1 - \alpha - \delta(|Q_m|),
+\]
+where $\delta(|Q_m|) = O(|Q_m|^{-1/2})$ is a finite-sample slack term
+arising from a Hoeffding inequality applied to the empirical quantile.
+\end{theorem}
+
+\begin{proof}[Proof sketch]
+\textbf{Marginal coverage.}
+By fuzzy permutation invariance (Definition~\ref{def:fpi}), the Sugeno
+scores $(s_v)_{v \in V_\text{cal} \cup \{v_\text{test}\}}$ are jointly
+exchangeable.
+The standard CP exchangeability argument \citep{angelopoulos21} then gives
+$\Prob(s_{v_\text{test}} \le \hat{q}) \ge 1-\alpha$, i.e.,
+$\Prob(y_{v_\text{test}} \in \Calpha(v_\text{test})) \ge 1-\alpha$.
+
+\textbf{Conditional coverage.}
+Within community $Q_m$, the calibration scores $\{s_v : v \in Q_m\}$
+are exchangeable by the same invariance argument.
+The empirical quantile $\hat{q}_{Q_m}$ satisfies
+$\Prob(s_v \le \hat{q}_{Q_m}) \ge 1-\alpha$ for any
+test node $v$ exchangeable with the community calibration nodes.
+By Hoeffding's inequality applied to the empirical c.d.f.\ of
+$n_m = |Q_m \cap V_\text{cal}|$ i.i.d.\ Bernoulli trials,
+the deviation of the empirical quantile from the true quantile is bounded by
+$\delta(n_m) = \sqrt{\log(2/\delta_0) / (2n_m)} = O(n_m^{-1/2})$,
+completing the proof.
+\end{proof}
+
+\begin{remark}
+The slack $\delta(|Q_m|)$ vanishes as community size grows, matching the
+behaviour of Mondrian CP in standard settings \citep{rrgnn}.
+In practice, communities with fewer than five nodes fall back to the
+global quantile, sacrificing conditional for marginal coverage in
+data-sparse regimes.
+\end{remark}
+
+\subsection{Training Procedure}
+
+Algorithm~\ref{alg:training} summarises the full FC-GNN pipeline.
+
+\begin{algorithm}[t]
+\caption{FC-GNN Training and Calibration}
+\label{alg:training}
+\begin{algorithmic}[1]
+\Require Graph $G$, labels $Y_\text{train}$, calibration $V_\text{cal}$,
+         level $\alpha$
+\Ensure Trained FC-GNN, community quantiles $\{\hat{q}_{Q_m}\}$
+\State \textbf{Phase 1 — Fuzzy GNN Training}
+\State Initialise membership centres $\bm{c}_k$ and log-widths
+       $\log\bm{\sigma}_k$ randomly
+\For{each epoch}
+  \State Forward pass: compute $\bm{\mu}_v$ for all $v \in V_\text{train}$
+  \State $\mathcal{L} = \mathcal{L}_\text{CE} +
+         \lambda_1 \|\bm{\tau}\|_1$
+         \Comment{cross-entropy + rule sparsity}
+  \State Backward pass; update all parameters via Adam
+\EndFor
+\State \textbf{Phase 2 — FMCP Calibration}
+\State Forward pass on $V_\text{cal}$: obtain $\bm{\mu}_v$, $\forall v$
+\State Run Louvain on $G$ to get communities $\{Q_1, \ldots, Q_M\}$
+\For{each community $Q_m$}
+  \State Compute $s_v = 1 - \mathcal{S}_\lambda(\bm{\mu}_v, y_v)$,
+         $\forall v \in Q_m \cap V_\text{cal}$
+  \State $\hat{q}_{Q_m} \leftarrow \lceil(|Q_m \cap V_\text{cal}|+1)(1-\alpha)\rceil$-th
+         order statistic of $\{s_v\}$
+\EndFor
+\State \textbf{Phase 3 — Inference}
+\For{each test node $v$}
+  \State Assign $v$ to community $Q_m$ by Louvain / centroid proximity
+  \State $\Calpha(v) \leftarrow \{c : 1 - \mathcal{S}_\lambda(\bm{\mu}_v, c)
+         \le \hat{q}_{Q_m}\}$
+  \State Extract top-$K$ fired rules for IF-THEN explanation
+\EndFor
+\end{algorithmic}
+\end{algorithm}

@@ -1,0 +1,76 @@
+\documentclass[twocolumn]{svjour3}
+\smartqed
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{hyperref}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{subcaption}
+\usepackage{siunitx}
+\usepackage{natbib}
+\usepackage{microtype}
+
+\journalname{International Journal of Machine Learning and Cybernetics}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+\newtheorem{proposition}{Proposition}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+
+\newcommand{\fcgnn}{\textsc{FC-GNN}\xspace}
+\newcommand{\fmcp}{\textsc{FMCP}\xspace}
+\newcommand{\Calpha}{\mathcal{C}_\alpha}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\Prob}{\mathbb{P}}
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calV}{\mathcal{V}}
+\newcommand{\calE}{\mathcal{E}}
+\newcommand{\calN}{\mathcal{N}}
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calQ}{\mathcal{Q}}
+\DeclareMathOperator*{\argmax}{arg\,max}
+
+\graphicspath{{../figures/}}
+
+\begin{document}
+
+\title{Fuzzy-Conformal Graph Neural Networks with\\
+       Distribution-Free Coverage Guarantees for\\
+       Cybersecurity Anomaly Detection}
+
+\author{Quang-Vinh Dang}
+
+\institute{
+  Q.-V. Dang \at
+  Faculty of Information Technology, \\
+  Industrial University of Ho Chi Minh City, Vietnam \\
+  \email{dqvinh87@gmail.com}
+}
+
+\date{Received: \today}
+
+\maketitle
+
+\input{0_abstract}
+\input{1_intro}
+\input{2_related_work}
+\input{3_preliminaries}
+\input{4_method}
+\input{5_experiments}
+\input{6_interpretability}
+\input{7_discussion}
+\input{8_conclusion}
+
+\bibliographystyle{spbasic}
+\bibliography{ref}
+
+\end{document}

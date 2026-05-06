@@ -1,0 +1,36 @@
+\begin{abstract}
+Graph Neural Networks (GNNs) have demonstrated strong performance for
+cybersecurity anomaly detection tasks — including network intrusion
+classification, botnet identification, and IoT malware analysis — yet two
+critical limitations remain unresolved simultaneously: the inability to
+handle inherently imprecise network telemetry through fuzzy reasoning, and
+the lack of distribution-free, finite-sample coverage guarantees that
+compliance-sensitive environments demand.
+We present \textbf{FC-GNN} (\textbf{F}uzzy-\textbf{C}onformal
+\textbf{G}raph \textbf{N}eural \textbf{N}etwork), the first architecture to
+jointly address both weaknesses.
+FC-GNN replaces the standard crisp aggregation function with a
+\emph{fuzzy message-passing layer} that computes Gaussian membership
+functions and Product T-norm rule-firing strengths, yielding
+uncertainty-aware node embeddings.
+A Sugeno-type fuzzy integral then defines a nonconformity score that feeds
+into \emph{Fuzzy Mondrian Conformal Prediction} (FMCP), which partitions
+calibration nodes into graph communities via Louvain clustering and
+computes per-community quantiles — providing conditional, finite-sample
+coverage guarantees of the form
+$\Prob(y_v \in \Calpha(v) \mid v \in Q_m) \ge 1-\alpha$.
+We prove a coverage theorem for FC-GNN under a fuzzy-extended
+permutation-invariance condition, and show that the conditional slack is
+$O(|Q_m|^{-1/2})$.
+Experiments on seven publicly available cybersecurity benchmarks
+— CIC-IDS-2017, UNSW-NB15, NF-BoT-IoT, ISCX-Botnet 2014, CTU-13,
+N-BaIoT, and ToN-IoT — confirm that FC-GNN is the only method to
+simultaneously achieve valid conditional coverage ($\ge\!90\%$ on $5/7$
+datasets at $\alpha\!=\!0.10$) while outperforming the leading Mondrian
+CP baseline (RR-GNN) in prediction-set efficiency on three datasets, and
+providing human-interpretable IF-THEN rule explanations aligned with
+MITRE ATT\&CK categories (mean explanation stability $0.61$).
+\keywords{Graph neural networks \and Conformal prediction \and
+Fuzzy logic \and Cybersecurity \and Anomaly detection \and
+Uncertainty quantification \and Interpretability}
+\end{abstract}

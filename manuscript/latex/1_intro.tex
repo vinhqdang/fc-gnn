@@ -1,0 +1,96 @@
+\section{Introduction}
+\label{sec:intro}
+
+Network intrusion detection, botnet identification, and IoT malware analysis
+are canonical cybersecurity tasks that operate over inherently
+\emph{graph-structured} data: traffic flows between hosts form edges, devices
+form nodes, and attack campaigns manifest as anomalous subgraph patterns.
+Graph Neural Networks (GNNs) have emerged as powerful classifiers for
+these tasks, achieving high accuracy on benchmarks such as CIC-IDS-2017
+\citep{cicids2017}, UNSW-NB15 \citep{unswNB15}, and NF-BoT-IoT
+\citep{nfbotiot} — yet they suffer from two critical, simultaneously
+unresolved weaknesses.
+
+\paragraph{W1 — Epistemic uncertainty from noisy and ambiguous features.}
+Network telemetry is inherently imprecise: packet-level features exhibit
+quantisation noise, flow statistics are aggregated over variable windows,
+and labelling of attack vs.\ benign traffic is often soft or partially
+overlapping \citep{graphids}.
+Standard GNN classifiers produce crisp binary decisions that discard this
+inherent fuzziness, leading to brittle predictions and inflated
+false-alarm rates in production SOC deployments.
+
+\paragraph{W2 — Absence of formal coverage guarantees.}
+Neither standard GNNs nor fuzzy-neural extensions provide
+\emph{distribution-free, finite-sample guarantees} on their prediction sets.
+A security analyst receiving an alert has no principled bound on the
+probability that the true attack class lies within the model's output —
+making risk quantification impossible for compliance-sensitive
+(e.g., GDPR, NIS2) environments \citep{cp_survey}.
+
+\subsection{Research Gaps}
+
+Significant progress has been made independently along two complementary
+lines: (a) \emph{conformal prediction for GNNs}
+\citep{cfgnn,daps,clarkson23,rrgnn} and (b) \emph{fuzzy GNN architectures}
+\citep{flgnn,fgat,fgnn_survey}.
+However, their explicit fusion remains an open problem.
+Table~\ref{tab:gaps} positions FC-GNN against the five closest prior methods.
+
+\begin{table}[t]
+\caption{Research gap: no prior work simultaneously provides coverage
+         guarantees, fuzzy aggregation, and cybersecurity validation.}
+\label{tab:gaps}
+\small
+\begin{tabular}{lccc}
+\toprule
+Method & Coverage & Fuzzy & Cyb.\ Bench. \\
+\midrule
+CF-GNN \citep{cfgnn}        & \checkmark & $\times$ & $\times$ \\
+RR-GNN \citep{rrgnn}        & \checkmark & $\times$ & $\times$ \\
+FL-GNN \citep{flgnn}        & $\times$ & \checkmark & $\times$ \\
+FGAT   \citep{fgat}         & $\times$ & \checkmark & $\times$ \\
+GraphIDS \citep{graphids}   & $\times$ & $\times$ & \checkmark \\
+\midrule
+\textbf{FC-GNN (ours)}      & \checkmark & \checkmark & \checkmark \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Contributions}
+
+This paper makes four contributions:
+
+\begin{enumerate}
+\item \textbf{FC-GNN architecture.}  A novel GNN in which each
+  message-passing layer incorporates a fuzzy-rule aggregation module that
+  outputs a fuzzy membership distribution over classes per node, rather than
+  a crisp softmax logit (Section~\ref{sec:method}).
+
+\item \textbf{Fuzzy Mondrian Conformal Prediction (FMCP).}  A principled
+  extension of Graph-Structured Mondrian CP \citep{rrgnn} to fuzzy
+  nonconformity scores defined via a Sugeno-type fuzzy integral, producing
+  calibrated prediction sets with per-cluster conditional coverage guarantees
+  (Section~\ref{sec:fmcp}).
+
+\item \textbf{Coverage theorem.}  A finite-sample theorem proving that FC-GNN's
+  prediction sets achieve at least $(1-\alpha)$ marginal coverage and
+  conditional coverage within graph communities, with a slack term
+  $\delta(|Q_m|) = O(|Q_m|^{-1/2})$ (Section~\ref{sec:theorem}).
+
+\item \textbf{Cybersecurity benchmarks.}  Systematic evaluation on seven
+  publicly available datasets spanning intrusion detection, botnet detection,
+  and IoT malware, with temporal chronological splits and full ablation
+  studies (Section~\ref{sec:experiments}).
+\end{enumerate}
+
+\subsection{Paper Structure}
+
+Section~\ref{sec:related} reviews related work.
+Section~\ref{sec:prelim} covers necessary preliminaries.
+Section~\ref{sec:method} presents the FC-GNN architecture and the FMCP
+calibration procedure.
+Section~\ref{sec:experiments} reports empirical results.
+Section~\ref{sec:interpretability} analyses the extracted fuzzy rules.
+Section~\ref{sec:discussion} discusses limitations.
+Section~\ref{sec:conclusion} concludes.

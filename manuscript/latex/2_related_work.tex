@@ -1,0 +1,91 @@
+\section{Related Work}
+\label{sec:related}
+
+\subsection{Conformal Prediction — Foundations}
+
+Conformal prediction (CP) \citep{angelopoulos21} provides distribution-free,
+finite-sample prediction sets satisfying marginal coverage
+$\Prob(y \in \Calpha(x)) \ge 1-\alpha$ for any pre-specified error rate
+$\alpha$.
+\citet{barber23} extended CP beyond exchangeability to handle covariate shift.
+\citet{cp_survey} survey CP comprehensively including a graph-data subsection.
+The present authors have applied CP to intrusion detection \citep{dang23ids}
+and botnet detection \citep{dang24botnet}, and developed CONFIDE for causal
+competing-risk settings \citep{dang26confide}.
+
+\subsection{Conformal Prediction for Graph Neural Networks}
+
+\citet{cfgnn} introduced CF-GNN, the de-facto baseline for CP on graphs.
+They derive a \emph{permutation-invariance condition} under which calibration
+nonconformity scores are exchangeable and hence CP is valid; they also propose
+a topology-aware score correction.
+\citet{daps} proposed DAPS, which diffuses conformity scores over the graph
+using homophily weighting, improving prediction-set tightness on node
+classification.
+\citet{clarkson23} studied structure-aware inductive node CP.
+\citet{snaps} introduced SNAPS, aggregating scores from feature-similar
+neighbours to improve singleton-hit proportion.
+
+Among the closest to our work, \citet{rrgnn} proposed RR-GNN, which uses
+\emph{Graph-Structured Mondrian CP} — partitioning calibration nodes into
+graph communities and computing per-community quantiles.
+This yields conditional coverage guarantees within communities and motivates
+the FMCP component of FC-GNN.
+\citet{rrgnn} do not, however, incorporate fuzzy aggregation or cybersecurity
+evaluation.
+
+Other CP-GNN work includes federated settings \citep{akgul25}, temporal GNNs
+\citep{ncp2025,ncpnet25}, and conformal training \citep{confrank25}.
+\citet{crcs_gad} extend CP to graph anomaly detection with risk control.
+\citet{fuzzy_cp_evalue} develop fuzzy prediction sets via e-values in
+non-graph settings, providing a theoretical bridge to our approach.
+
+\subsection{Fuzzy Graph Neural Networks}
+
+\citet{flgnn} proposed FL-GNN, which defines a Cartesian-product rule base
+in the message-passing layer, enabling interpretable IF-THEN explanations.
+Our fuzzy message-passing layer (FMPL) directly extends FL-GNN's rule base,
+adding Gaussian membership functions, the product T-norm, and centroid
+defuzzification.
+\citet{fgat} extended fuzzy logic to graph attention (FGAT), using fuzzy
+rough-set attention weights with dynamic negative sampling.
+\citet{mfgat} proposed MFGAT with multi-view fuzzy attention.
+A comprehensive survey by \citet{fgnn_survey} identifies the absence of
+coverage guarantees as a key open problem across all fuzzy GNN architectures
+— a gap we directly address.
+\citet{firegnn} developed FireGNN with trainable neuro-symbolic fuzzy rules,
+and \citet{fgenconv} applied explainable fuzzy GNNs to infrastructure
+anomaly detection.
+The present authors applied fuzzy embeddings to software-defined network NIDS
+in \citep{dang24fuzzy}.
+
+\subsection{GNNs for Cybersecurity}
+
+\citet{graphids} achieved 99.98\% PR-AUC on NF-BoT-IoT using self-supervised
+E-GraphSAGE.
+\citet{gnni ds} proposed a hybrid static-dynamic graph IDS.
+\citet{xgnid} combined heterogeneous GNN with LLM for dual-modality NIDS.
+Various GNN-IDS architectures have been surveyed in \citep{gnn_ids_survey}.
+The authors previously proposed GNN-based NIDS baselines in
+\citep{dang23wifi} and federated IoT malware detection in
+\citep{dang24federated}.
+
+\subsection{Conformal Prediction in Cybersecurity}
+
+\citet{botnet_cp} applied a CP rejection layer to botnet classification,
+rejecting 58\% of incorrect predictions on ISCX.
+\citet{cp_drift} showed that CP pseudo-labels become inconsistent under heavy
+concept drift, motivating our temporal split protocol.
+\citet{damba26} extended open-set CP to zero-day IIoT detection.
+\citet{cp_cps26} proposed sliding-window temporal quantile CP for
+cyber-physical system anomaly detection.
+
+\subsection{Fuzzy Methods in Cybersecurity}
+
+\citet{fuzzy_iot} combined fuzzy logic with CNN ensembles for IoT NIDS,
+achieving 99.72\% on NSL-KDD.
+\citet{fuzzy_sdn} proposed hunger-games-optimised fuzzy-rule deep learning
+for SDN-enabled IoT environments.
+\citet{gfs_gan} evolved fuzzy rules with adversarial training for IDS.
+These works confirm the practical value of fuzzy reasoning for cybersecurity
+but lack any CP coverage guarantees.
