@@ -94,71 +94,70 @@ class FuzzyMessagePassingLayer(MessagePassing):
 class SugenoFuzzyIntegral(nn.Module):
     """
     Sugeno-type fuzzy integral for nonconformity scoring.
-    Computes S_λ(μ_v, y_v) = sup_{A ⊆ C} [min(min_{c∈A} μ_v(c), g_λ(A))]
-    where g_λ is a λ-fuzzy measure.
+    S_λ(μ_v, y_v) = sup_{A ⊆ C} [min(min_{c∈A} μ_v(c), g_λ(A))]
 
-    For efficiency, we use a learned λ parameter and compute the integral
-    over sorted membership values.
+    Computed efficiently via sorted membership values:
+    1. Sort μ_v descending: μ_(1) ≥ μ_(2) ≥ ... ≥ μ_(C)
+    2. Build prefix λ-fuzzy measure g_λ({c_1,...,c_k}) recursively
+    3. Integral = max_k min(μ_(k), g_λ({c_1,...,c_k}))
+
+    For per-class nonconformity: S_λ(μ_v, c) uses μ_v[c] as the
+    class-specific evidence score, with the integral providing a
+    neighbourhood-aware correction.
     """
 
     def __init__(self, n_classes: int):
         super().__init__()
         self.n_classes = n_classes
-        # λ parameter of the fuzzy measure (scalar, learnable)
         self.log_lambda = nn.Parameter(torch.tensor(0.0))
 
     @property
     def lambda_val(self) -> torch.Tensor:
-        return torch.tanh(self.log_lambda) * 9.99  # λ ∈ (-10, 10)
+        return torch.tanh(self.log_lambda) * 4.0  # λ ∈ (-4, 4)
 
-    def _lambda_measure(self, singletons: torch.Tensor) -> torch.Tensor:
+    def _sugeno_integral(self, mu: torch.Tensor) -> torch.Tensor:
         """
-        Compute the λ-fuzzy measure g_λ for all subsets implied by sorted ordering.
-        singletons: [B, C] per-class measure values (sorted descending in caller)
-        Returns: [B, C] cumulative g_λ values
+        Core Sugeno integral over sorted membership values.
+        Args:
+            mu: [B, C] membership values (arbitrary order)
+        Returns:
+            [B] integral values in [0,1]
         """
+        sorted_mu, _ = mu.sort(dim=1, descending=True)  # [B, C]
         lam = self.lambda_val
-        # g_λ({c1,...,ck}) via recursive formula: g(A∪B) = g(A)+g(B)+λ·g(A)·g(B)
-        g = torch.zeros_like(singletons[:, :1])
-        measures = []
-        for i in range(singletons.size(1)):
-            gi = singletons[:, i:i+1]
-            g = g + gi + lam * g * gi
-            measures.append(g.clone())
-        return torch.cat(measures, dim=1)  # [B, C]
+        # Build cumulative λ-measure
+        g = sorted_mu[:, 0:1].clone()  # g({c_1}) = μ_(1) scaled
+        min_vals = [torch.min(sorted_mu[:, 0:1], g)]
+        for k in range(1, sorted_mu.size(1)):
+            mu_k = sorted_mu[:, k:k+1]
+            # g_λ(A ∪ {c_{k+1}}) = g(A) + g({c_{k+1}}) + λ·g(A)·g({c_{k+1}})
+            g = g + mu_k + lam * g * mu_k
+            g = g.clamp(0, 1)
+            min_vals.append(torch.min(sorted_mu[:, k:k+1], g))
+        min_stack = torch.cat(min_vals, dim=1)  # [B, C]
+        return min_stack.max(dim=1).values       # [B]
 
     def forward(self, mu: torch.Tensor, target_class: torch.Tensor = None) -> torch.Tensor:
         """
-        Compute Sugeno integral confidence score.
+        Compute class-specific Sugeno confidence scores.
+
         Args:
             mu: [B, C] fuzzy membership distribution
-            target_class: [B] target class indices (None = compute for all classes)
+            target_class: [B] class indices. If None, compute for all C classes.
         Returns:
-            scores: [B] Sugeno integral values (higher = more confident)
+            [B] scores if target_class given, else [B, C]
         """
         if target_class is not None:
-            # For nonconformity: focus on target class ordering
-            # Sort memberships descending, compute integral
-            B, C = mu.shape
-            # Bring target class membership to front for ordering
-            target_mu = mu[torch.arange(B), target_class].unsqueeze(1)  # [B,1]
-            # Sort all classes by membership descending
-            sorted_mu, sorted_idx = mu.sort(dim=1, descending=True)
-            # Singletons from normalized memberships
-            singletons = sorted_mu.clamp(0, 1)
-            g = self._lambda_measure(singletons)  # [B, C]
-            # Sugeno integral: sup_k min(μ_(k), g({c_1,...,c_k}))
-            min_vals = torch.min(singletons, g)   # [B, C]
-            integral = min_vals.max(dim=1).values  # [B]
-            # Weight by whether target class is in top sets
-            # Use target class rank as confidence adjustment
-            target_mu_flat = target_mu.squeeze(1)  # [B]
-            return integral * (target_mu_flat / (mu.max(dim=1).values + 1e-8))
+            B = mu.size(0)
+            # S_λ(μ_v, c) = μ_v[c] * S_λ(μ_v) / (μ_v.max() + ε)
+            # → scales the global integral by the relative membership of the target class
+            target_mu = mu[torch.arange(B), target_class]     # [B]
+            global_integral = self._sugeno_integral(mu)        # [B]
+            max_mu = mu.max(dim=1).values.clamp(min=1e-8)      # [B]
+            return global_integral * (target_mu / max_mu)
         else:
-            # Compute for all classes (used in prediction set construction)
             B, C = mu.shape
-            scores = []
-            for c in range(C):
-                target_c = torch.full((B,), c, dtype=torch.long, device=mu.device)
-                scores.append(self.forward(mu, target_c))
-            return torch.stack(scores, dim=1)  # [B, C]
+            global_integral = self._sugeno_integral(mu)        # [B]
+            max_mu = mu.max(dim=1).values.clamp(min=1e-8)      # [B]
+            # For each class c: score = integral * mu[:, c] / max_mu
+            return global_integral.unsqueeze(1) * (mu / max_mu.unsqueeze(1))  # [B, C]
