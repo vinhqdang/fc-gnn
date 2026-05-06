@@ -1,0 +1,170 @@
+
+=== SUMMARY: FC-GNN vs Baselines (averaged across all datasets) ===
+        Accuracy  Macro-F1  AUPRC  Coverage   APSS  Cov-Gap
+Model                                                      
+cfgnn     0.9514    0.8110 0.9060    0.9047 0.9161   0.0000
+daps      0.8441    0.6880 0.8078    0.7989 1.0306   0.0000
+fc_gnn    0.9269    0.7261 0.8731    0.9026 1.1751   0.0789
+rrgnn     0.9524    0.8115 0.9072    0.9094 1.7621   0.0754
+snaps     0.8441    0.6880 0.8078    0.8707 1.0825   0.0000
+
+=== Conditional Coverage Advantage ===
+Average coverage gap (lower is better):
+  fc_gnn: 0.0789
+  rrgnn: 0.0754
+
+=== FC-GNN Interpretability ===
+     Dataset  Rule-Fidelity  Rule-Complexity  Expl-Stability
+CIC-IDS-2017         0.2375           0.0037          0.3160
+   UNSW-NB15         0.5006           0.0000          0.6803
+  NF-BoT-IoT         0.0125           0.0006          0.5633
+ ISCX-Botnet         0.0950           0.0000          0.5840
+      CTU-13         0.0517           0.0225          0.6327
+     N-BaIoT         0.1317           0.0000          0.8288
+     ToN-IoT         0.0133           0.0000          0.6580
+
+Mean rule fidelity: 0.1489
+Mean expl. stability: 0.6090
+
+=== SIGNIFICANCE TESTS (FC-GNN vs baselines, Wilcoxon, Macro-F1) ===
+  FC-GNN vs cfgnn   : p=0.1562 ns (FC-GNN < baseline)
+  FC-GNN vs daps    : p=0.5781 ns (FC-GNN > baseline)
+  FC-GNN vs rrgnn   : p=0.1562 ns (FC-GNN < baseline)
+  FC-GNN vs snaps   : p=0.5781 ns (FC-GNN > baseline)
+  FC-GNN vs flgnn   : p=0.0312 * p<0.05 (FC-GNN < baseline)
+  FC-GNN vs fgat    : p=0.0312 * p<0.05 (FC-GNN < baseline)
+  FC-GNN vs gcn     : p=0.5781 ns (FC-GNN > baseline)
+  FC-GNN vs sage    : p=0.1562 ns (FC-GNN < baseline)
+
+=== SIGNIFICANCE TESTS (FC-GNN vs baselines, Wilcoxon, Coverage) ===
+  FC-GNN vs cfgnn   : p=1.0000 ns (FC-GNN < baseline)
+  FC-GNN vs daps    : p=0.0312 * p<0.05 (FC-GNN > baseline)
+  FC-GNN vs rrgnn   : p=0.4688 ns (FC-GNN < baseline)
+  FC-GNN vs snaps   : p=0.0469 * p<0.05 (FC-GNN > baseline)
+
+=== PAPER TABLE (Point Prediction) ===
+\begin{tabular}{llrrrrr}
+\hline
+Dataset & Model & Accuracy & Macro-F1 & AUPRC & FAR & MCC \\
+\hline
+CIC-IDS-2017 & flgnn & 0.8650 & 0.3136 & 0.5455 & 0.1164 & 0.4213 \\
+ & fgat & 0.7356 & 0.2783 & 0.5604 & 0.2553 & 0.3028 \\
+ & cfgnn & 0.9506 & 0.1503 & 0.3454 & 0.0000 & 0.3386 \\
+ & sage & 0.9506 & 0.1503 & 0.3454 & 0.0000 & 0.3386 \\
+ & daps & 0.9487 & 0.1501 & 0.2310 & 0.0013 & 0.2856 \\
+ & snaps & 0.9487 & 0.1501 & 0.2310 & 0.0013 & 0.2856 \\
+ & gcn & 0.9487 & 0.1501 & 0.2310 & 0.0013 & 0.2856 \\
+ & rrgnn & 0.9500 & 0.1429 & 0.3544 & 0.0000 & 0.3198 \\
+ & \textbf{fc_gnn} & \textbf{0.9450} & \textbf{0.0648} & \textbf{0.2387} & \textbf{0.0000} & \textbf{0.0000} \\
+\hline
+UNSW-NB15 & flgnn & 1.0000 & 1.0000 & 1.0000 & 0.0000 & 1.0000 \\
+ & fgat & 1.0000 & 1.0000 & 1.0000 & 0.0000 & 1.0000 \\
+ & cfgnn & 0.9544 & 0.9107 & 0.9999 & 0.0000 & 0.9361 \\
+ & sage & 0.9544 & 0.9107 & 0.9999 & 0.0000 & 0.9361 \\
+ & rrgnn & 0.9531 & 0.9062 & 0.9999 & 0.0000 & 0.9344 \\
+ & \textbf{fc_gnn} & \textbf{0.9300} & \textbf{0.8311} & \textbf{0.9618} & \textbf{0.0000} & \textbf{0.9012} \\
+ & daps & 0.7538 & 0.5903 & 0.8006 & 0.0048 & 0.6390 \\
+ & snaps & 0.7538 & 0.5903 & 0.8006 & 0.0048 & 0.6390 \\
+ & gcn & 0.7538 & 0.5903 & 0.8006 & 0.0048 & 0.6390 \\
+\hline
+NF-BoT-IoT & flgnn & 0.9869 & 0.9873 & 0.9985 & 0.0115 & 0.9827 \\
+ & rrgnn & 0.9862 & 0.9868 & 0.9985 & 0.0172 & 0.9819 \\
+ & cfgnn & 0.9856 & 0.9859 & 0.9984 & 0.0230 & 0.9811 \\
+ & sage & 0.9856 & 0.9859 & 0.9984 & 0.0230 & 0.9811 \\
+ & fgat & 0.9825 & 0.9831 & 0.9976 & 0.0115 & 0.9770 \\
+ & \textbf{fc_gnn} & \textbf{0.9669} & \textbf{0.9585} & \textbf{0.9956} & \textbf{0.2011} & \textbf{0.9567} \\
+ & daps & 0.7694 & 0.7952 & 0.8837 & 0.1149 & 0.6959 \\
+ & snaps & 0.7694 & 0.7952 & 0.8837 & 0.1149 & 0.6959 \\
+ & gcn & 0.7694 & 0.7952 & 0.8837 & 0.1149 & 0.6959 \\
+\hline
+ISCX-Botnet & flgnn & 1.0000 & 1.0000 & 1.0000 & 0.0000 & 1.0000 \\
+ & fgat & 1.0000 & 1.0000 & 1.0000 & 0.0000 & 1.0000 \\
+ & cfgnn & 0.9992 & 0.9993 & 0.9994 & 0.0021 & 0.9989 \\
+ & rrgnn & 0.9992 & 0.9993 & 0.9994 & 0.0021 & 0.9989 \\
+ & sage & 0.9992 & 0.9993 & 0.9994 & 0.0021 & 0.9989 \\
+ & \textbf{fc_gnn} & \textbf{0.9850} & \textbf{0.9792} & \textbf{0.9999} & \textbf{0.0000} & \textbf{0.9810} \\
+ & daps & 0.9025 & 0.9076 & 0.9647 & 0.0206 & 0.8768 \\
+ & snaps & 0.9025 & 0.9076 & 0.9647 & 0.0206 & 0.8768 \\
+ & gcn & 0.9025 & 0.9076 & 0.9647 & 0.0206 & 0.8768 \\
+\hline
+CTU-13 & flgnn & 1.0000 & 1.0000 & 1.0000 & 0.0000 & 1.0000 \\
+ & fgat & 1.0000 & 1.0000 & 1.0000 & 0.0000 & 1.0000 \\
+ & cfgnn & 0.9125 & 0.8366 & 0.9994 & 0.0000 & 0.8795 \\
+ & sage & 0.9125 & 0.8366 & 0.9994 & 0.0000 & 0.8795 \\
+ & rrgnn & 0.9017 & 0.8191 & 0.9984 & 0.0000 & 0.8643 \\
+ & daps & 0.7708 & 0.6274 & 0.8524 & 0.0098 & 0.6737 \\
+ & snaps & 0.7708 & 0.6274 & 0.8524 & 0.0098 & 0.6737 \\
+ & gcn & 0.7708 & 0.6274 & 0.8524 & 0.0098 & 0.6737 \\
+ & \textbf{fc_gnn} & \textbf{0.8000} & \textbf{0.5018} & \textbf{0.9180} & \textbf{0.0000} & \textbf{0.7281} \\
+\hline
+N-BaIoT & \textbf{fc_gnn} & \textbf{1.0000} & \textbf{1.0000} & \textbf{1.0000} & \textbf{0.0000} & \textbf{1.0000} \\
+ & flgnn & 1.0000 & 1.0000 & 1.0000 & 0.0000 & 1.0000 \\
+ & fgat & 1.0000 & 1.0000 & 1.0000 & 0.0000 & 1.0000 \\
+ & daps & 0.9225 & 0.9323 & 0.9784 & 0.0387 & 0.9099 \\
+ & snaps & 0.9225 & 0.9323 & 0.9784 & 0.0387 & 0.9099 \\
+ & gcn & 0.9225 & 0.9323 & 0.9784 & 0.0387 & 0.9099 \\
+ & cfgnn & 0.9208 & 0.8777 & 1.0000 & 0.0000 & 0.9115 \\
+ & sage & 0.9208 & 0.8777 & 1.0000 & 0.0000 & 0.9115 \\
+ & rrgnn & 0.9208 & 0.8769 & 1.0000 & 0.0000 & 0.9114 \\
+\hline
+ToN-IoT & flgnn & 1.0000 & 1.0000 & 1.0000 & 0.0000 & 1.0000 \\
+ & fgat & 0.9992 & 0.9993 & 1.0000 & 0.0023 & 0.9990 \\
+ & rrgnn & 0.9558 & 0.9495 & 0.9995 & 0.0000 & 0.9475 \\
+ & cfgnn & 0.9367 & 0.9166 & 0.9995 & 0.0000 & 0.9253 \\
+ & sage & 0.9367 & 0.9166 & 0.9995 & 0.0000 & 0.9253 \\
+ & daps & 0.8408 & 0.8130 & 0.9437 & 0.0208 & 0.8120 \\
+ & snaps & 0.8408 & 0.8130 & 0.9437 & 0.0208 & 0.8120 \\
+ & gcn & 0.8408 & 0.8130 & 0.9437 & 0.0208 & 0.8120 \\
+ & \textbf{fc_gnn} & \textbf{0.8617} & \textbf{0.7477} & \textbf{0.9978} & \textbf{0.0000} & \textbf{0.8395} \\
+\hline
+\end{tabular}
+
+=== PAPER TABLE (CP Metrics — CP models only) ===
+\begin{tabular}{llrrrr}
+\hline
+Dataset & Model & Coverage & APSS & SHP & Cov-Gap \\
+\hline
+CIC-IDS-2017 & cfgnn & 0.9163 & 0.9181 & 0.9163 & 0.0000 \\
+ & snaps & 0.9200 & 0.9487 & 0.9200 & 0.0000 \\
+ & daps & 0.9187 & 0.9519 & 0.9187 & 0.0000 \\
+ & rrgnn & 0.9087 & 1.1950 & 0.8906 & 0.1000 \\
+ & \textbf{fc_gnn} & \textbf{0.9056} & \textbf{1.5044} & \textbf{0.7631} & \textbf{0.1375} \\
+\hline
+UNSW-NB15 & cfgnn & 0.9025 & 0.9025 & 0.9025 & 0.0000 \\
+ & \textbf{fc_gnn} & \textbf{0.9225} & \textbf{0.9656} & \textbf{0.9006} & \textbf{0.0765} \\
+ & daps & 0.7712 & 1.2388 & 0.5325 & 0.0000 \\
+ & rrgnn & 0.9256 & 1.2625 & 0.8825 & 0.0529 \\
+ & snaps & 0.8363 & 1.3431 & 0.5088 & 0.0000 \\
+\hline
+NF-BoT-IoT & \textbf{fc_gnn} & \textbf{0.8931} & \textbf{0.9062} & \textbf{0.8931} & \textbf{0.0385} \\
+ & cfgnn & 0.9106 & 0.9131 & 0.9106 & 0.0000 \\
+ & rrgnn & 0.9163 & 0.9194 & 0.9163 & 0.0538 \\
+ & daps & 0.7781 & 1.1187 & 0.6275 & 0.0000 \\
+ & snaps & 0.8588 & 1.2087 & 0.6656 & 0.0000 \\
+\hline
+ISCX-Botnet & daps & 0.7475 & 0.8117 & 0.7475 & 0.0000 \\
+ & cfgnn & 0.8883 & 0.8892 & 0.8883 & 0.0000 \\
+ & rrgnn & 0.8917 & 0.8925 & 0.8917 & 0.0639 \\
+ & snaps & 0.8675 & 0.9075 & 0.8675 & 0.0000 \\
+ & \textbf{fc_gnn} & \textbf{0.8992} & \textbf{0.9108} & \textbf{0.8925} & \textbf{0.0818} \\
+\hline
+CTU-13 & cfgnn & 0.9050 & 0.9733 & 0.8842 & 0.0000 \\
+ & daps & 0.7708 & 1.2050 & 0.5667 & 0.0000 \\
+ & snaps & 0.8417 & 1.2633 & 0.5825 & 0.0000 \\
+ & \textbf{fc_gnn} & \textbf{0.8950} & \textbf{1.8717} & \textbf{0.7758} & \textbf{0.1000} \\
+ & rrgnn & 0.9017 & 4.7875 & 0.5358 & 0.1000 \\
+\hline
+N-BaIoT & daps & 0.8025 & 0.8350 & 0.8017 & 0.0000 \\
+ & \textbf{fc_gnn} & \textbf{0.9158} & \textbf{0.9158} & \textbf{0.9158} & \textbf{0.0600} \\
+ & cfgnn & 0.9158 & 0.9158 & 0.9158 & 0.0000 \\
+ & snaps & 0.9042 & 0.9325 & 0.8983 & 0.0000 \\
+ & rrgnn & 0.9058 & 1.8433 & 0.7992 & 0.1000 \\
+\hline
+ToN-IoT & cfgnn & 0.8942 & 0.9008 & 0.8942 & 0.0000 \\
+ & snaps & 0.8667 & 0.9733 & 0.8392 & 0.0000 \\
+ & daps & 0.8033 & 1.0533 & 0.7367 & 0.0000 \\
+ & \textbf{fc_gnn} & \textbf{0.8867} & \textbf{1.1508} & \textbf{0.8033} & \textbf{0.0583} \\
+ & rrgnn & 0.9158 & 1.4342 & 0.8375 & 0.0568 \\
+\hline
+\end{tabular}
+
