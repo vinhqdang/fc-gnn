@@ -141,36 +141,40 @@ ToN-IoT       & 0.748/0.862 & 0.917/0.937 & 0.813/0.841 & 0.949/\textbf{0.956} &
 
 \subsubsection{Conformal Prediction Performance}
 
-Table~\ref{tab:cp_main} reports CP metrics for the five CP-capable models.
+Table~\ref{tab:cp_main} reports coverage and APSS for the five CP-capable
+models; Table~\ref{tab:cp_gap} reports the conditional coverage gap for the
+two Mondrian CP models (FC-GNN and RR-GNN; the other three provide only
+marginal coverage, so a per-community gap does not apply).
 Figure~\ref{fig:coverage} and Figure~\ref{fig:apss} visualise coverage and
 APSS respectively.
 
 \begin{table*}[t]
-\caption{Conformal prediction metrics ($\alpha = 0.10$, target coverage $\ge 0.90$).
+\caption{Conformal prediction coverage and efficiency ($\alpha = 0.10$,
+         target coverage $\ge 0.90$).
          Coverage violations (${<}0.90$) are marked with $\times$.
          FC-GNN column marked with $\dagger$.}
 \label{tab:cp_main}
 \setlength{\tabcolsep}{4pt}
 \small
-\begin{tabular}{l@{\;}ccc@{\;}ccc@{\;}ccc@{\;}ccc@{\;}ccc}
+\begin{tabular}{l@{\;}cc@{\;}cc@{\;}cc@{\;}cc@{\;}cc}
 \toprule
-& \multicolumn{3}{c}{FC-GNN$^\dagger$} & \multicolumn{3}{c}{CF-GNN} &
-  \multicolumn{3}{c}{DAPS} & \multicolumn{3}{c}{RR-GNN} &
-  \multicolumn{3}{c}{SNAPS} \\
-\cmidrule(lr){2-4}\cmidrule(lr){5-7}\cmidrule(lr){8-10}
-\cmidrule(lr){11-13}\cmidrule(lr){14-16}
-Dataset & Cov. & APSS & Gap & Cov. & APSS & Gap & Cov. & APSS & Gap &
-         Cov. & APSS & Gap & Cov. & APSS & Gap \\
+& \multicolumn{2}{c}{FC-GNN$^\dagger$} & \multicolumn{2}{c}{CF-GNN} &
+  \multicolumn{2}{c}{DAPS} & \multicolumn{2}{c}{RR-GNN} &
+  \multicolumn{2}{c}{SNAPS} \\
+\cmidrule(lr){2-3}\cmidrule(lr){4-5}\cmidrule(lr){6-7}
+\cmidrule(lr){8-9}\cmidrule(lr){10-11}
+Dataset & Cov. & APSS & Cov. & APSS & Cov. & APSS &
+         Cov. & APSS & Cov. & APSS \\
 \midrule
-CIC       & .906 & 1.50 & .138 & .916 & 0.92 & --- & $.919^{\times}$\tablefootnote{Above target on this dataset; marginal violation on others.} & 0.95 & --- & .909 & 1.20 & .100 & .920 & 0.95 & --- \\
-UNSW      & .923 & 0.97 & .077 & .903 & 0.90 & --- & \bfseries$.771^{\times}$ & 1.24 & --- & .926 & 1.26 & .053 & $.836^{\times}$ & 1.34 & --- \\
-NF-BoT    & .893 & 0.91 & .038 & .911 & 0.91 & --- & $.778^{\times}$ & 1.12 & --- & .916 & 0.92 & .054 & $.859^{\times}$ & 1.21 & --- \\
-ISCX      & .899 & 0.91 & .082 & $.888^{\times}$ & 0.89 & --- & $.748^{\times}$ & 0.81 & --- & .892 & 0.89 & .064 & $.868^{\times}$ & 0.91 & --- \\
-CTU       & .895 & 1.87 & .100 & .905 & 0.97 & --- & $.771^{\times}$ & 1.21 & --- & .902 & \bfseries 4.79 & .100 & $.842^{\times}$ & 1.26 & --- \\
-N-BaI     & .916 & 0.92 & .060 & .916 & 0.92 & --- & $.803^{\times}$ & 0.84 & --- & .906 & 1.84 & .100 & .904 & 0.93 & --- \\
-ToN       & .887 & 1.15 & .058 & .894 & 0.90 & --- & $.803^{\times}$ & 1.05 & --- & .916 & 1.43 & .057 & $.867^{\times}$ & 0.97 & --- \\
+CIC    & .906 & 1.50 & .916 & 0.92 & $.919^{\times}$\tablefootnote{Above target on this dataset; marginal violation on others.} & 0.95 & .909 & 1.20 & .920 & 0.95 \\
+UNSW   & .923 & 0.97 & .903 & 0.90 & \bfseries$.771^{\times}$ & 1.24 & .926 & 1.26 & $.836^{\times}$ & 1.34 \\
+NF-BoT & .893 & 0.91 & .911 & 0.91 & $.778^{\times}$ & 1.12 & .916 & 0.92 & $.859^{\times}$ & 1.21 \\
+ISCX   & .899 & 0.91 & $.888^{\times}$ & 0.89 & $.748^{\times}$ & 0.81 & .892 & 0.89 & $.868^{\times}$ & 0.91 \\
+CTU    & .895 & 1.87 & .905 & 0.97 & $.771^{\times}$ & 1.21 & .902 & \bfseries 4.79 & $.842^{\times}$ & 1.26 \\
+N-BaI  & .916 & 0.92 & .916 & 0.92 & $.803^{\times}$ & 0.84 & .906 & 1.84 & .904 & 0.93 \\
+ToN    & .887 & 1.15 & .894 & 0.90 & $.803^{\times}$ & 1.05 & .916 & 1.43 & $.867^{\times}$ & 0.97 \\
 \midrule
-Mean      & \textbf{.903} & 1.18 & .079 & .905 & 0.90 & --- & .807 & 1.03 & --- & .909 & 1.76 & .075 & .871 & 1.08 & --- \\
+Mean   & \textbf{.903} & 1.18 & .905 & 0.90 & .807 & 1.03 & .909 & 1.76 & .871 & 1.08 \\
 \bottomrule
 \end{tabular}
 \end{table*}
@@ -201,8 +205,34 @@ efficiency for coverage, but genuinely improving both simultaneously on
 these datasets.
 
 \paragraph{Conditional coverage gap.}
-Figure~\ref{fig:covgap} compares the coverage gap for FC-GNN and RR-GNN
-(the only two models with Mondrian conditional guarantees).
+Table~\ref{tab:cp_gap} and Figure~\ref{fig:covgap} compare the coverage gap
+for FC-GNN and RR-GNN (the only two models with Mondrian conditional
+guarantees; CF-GNN, DAPS, and SNAPS provide only marginal coverage, so a
+per-community gap does not apply to them).
+
+\begin{table}[t]
+\caption{Conditional coverage gap (worst-case per-community deviation from
+         the $0.90$ target) for the two Mondrian CP models. Lower is better.}
+\label{tab:cp_gap}
+\centering
+\small
+\begin{tabular}{lcc}
+\toprule
+Dataset & FC-GNN$^\dagger$ & RR-GNN \\
+\midrule
+CIC    & .138 & .100 \\
+UNSW   & .077 & .053 \\
+NF-BoT & .038 & .054 \\
+ISCX   & .082 & .064 \\
+CTU    & .100 & .100 \\
+N-BaI  & .060 & .100 \\
+ToN    & .058 & .057 \\
+\midrule
+Mean   & .079 & .075 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 FC-GNN achieves a smaller coverage gap than RR-GNN on four of seven datasets
 (UNSW-NB15: $0.077$ vs $0.053$; NF-BoT-IoT: $0.038$ vs $0.054$;
 ISCX-Botnet: $0.082$ vs $0.064$; ToN-IoT: $0.058$ vs $0.057$),

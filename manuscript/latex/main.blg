@@ -9,7 +9,7 @@ sn-basic.bst [2024/07/19 v1.1 bibliography style]
 Reallocating 'wiz_functions' (item size: 4) to 6000 items.
 You've used 53 entries,
             3567 wiz_defined-function locations,
-            1032 strings with 16811 characters,
+            1032 strings with 16741 characters,
 and the built_in function-call counts, 39990 in all, are:
 = -- 3675
 > -- 1652

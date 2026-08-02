@@ -151,7 +151,7 @@ Khaled Q, De~Marinis P, Louati M, et~al (2026) Explainable fuzzy {GNNs} for
 Kipf TN, Welling M (2017) Semi-supervised classification with graph
   convolutional networks. In: The Fifth International Conference on Learning
   Representations (ICLR), \doi{https://doi.org/10.48550/arXiv.1609.02907},
-  arXiv:1609.02907; ICLR does not assign its own DOIs
+  arXiv:1609.02907
 
 \bibitem[{Koning and van Meer(2026)}]{fuzzy_cp_evalue}
 Koning N, van Meer R (2026) Fuzzy prediction sets: Conformal prediction with
@@ -282,8 +282,7 @@ Zargarbashi SH, Antonelli S, Bojchevski A (2023) Conformal prediction sets for
 Zeng H, Zhou H, Srivastava A, et~al (2020) {GraphSAINT}: Graph sampling based
   inductive learning method. In: The Eighth International Conference on
   Learning Representations (ICLR),
-  \doi{https://doi.org/10.48550/arXiv.1907.04931}, arXiv:1907.04931; ICLR does
-  not assign its own DOIs
+  \doi{https://doi.org/10.48550/arXiv.1907.04931}, arXiv:1907.04931
 
 \bibitem[{Zeng et~al.(2026)Zeng, Peng, and Li}]{zeng2025structural}
 Zeng X, Peng H, Li A (2026) Proactive bot detection based on structural
