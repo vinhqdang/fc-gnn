@@ -22,11 +22,11 @@ We sincerely thank the reviewers for their insightful and constructive feedback.
 
 \reviewer{2. The table is incomplete: coverage and APSS values for DAPS, SNAPS, and RR-GNN on several datasets are omitted or misaligned. The "Gap" column is also poorly defined.}
 
-\response{We apologize for the formatting errors in the original submission. We have completely reformatted Table 4 (Conformal Prediction metrics) to correctly align all coverage, APSS, and Gap metrics for all models across all datasets. Furthermore, we explicitly define the "Coverage Gap" in the table caption and Section 5.3 as the worst-case deviation from target coverage across all communities (applicable only to Mondrian methods).}
+\response{We apologize for the formatting errors in the original submission. We have completely reformatted the Conformal Prediction metrics table to correctly align all coverage, APSS, and Gap metrics for all models across all datasets. Because a single table combining all three metrics for all five models became too wide for the page, we split it into two tables in the revision: Table 4 reports Coverage and APSS for all five CP-capable models, and Table 5 reports the Coverage Gap specifically for the two Mondrian CP models (FC-GNN and RR-GNN), since Gap is not defined for the three marginal-CP baselines (CF-GNN, DAPS, SNAPS). Furthermore, we explicitly define the "Coverage Gap" in the Table 5 caption and in Section 4.3 as the worst-case deviation from target coverage across all communities (applicable only to Mondrian methods).}
 
 \reviewer{3. The paper acknowledges that concept drift violates exchangeability (Sec. 6.3) but offers only a chronological split as mitigation. No quantitative analysis of drift severity or its impact on coverage degradation is provided.}
 
-\response{We agree with the reviewer that quantitative data is necessary. We have added a new subsection (Section 5.6: Impact of Concept Drift and Recalibration) and a corresponding table (Table 5) to the revised manuscript. We evaluated FC-GNN over a chronologically split span of the CTU-13 dataset across 4 months. As shown in the new table, empirical coverage degrades significantly from $0.905$ down to $0.742$ without recalibration, confirming that exchangeability violations compromise the guarantees. However, we also demonstrate that applying a sliding-window recalibration successfully recovers the empirical validity back to the $\approx 0.90$ target across all subsequent months, proving the robustness of the method in dynamic environments.}
+\response{We agree with the reviewer that quantitative data is necessary. We have added a new subsection (Section 4.6: Impact of Concept Drift and Recalibration) and a corresponding table (Table 6) to the revised manuscript. We evaluated FC-GNN over a chronologically split span of the CTU-13 dataset across 4 months. As shown in the new table, empirical coverage degrades significantly from $0.905$ down to $0.742$ without recalibration, confirming that exchangeability violations compromise the guarantees. However, we also demonstrate that applying a sliding-window recalibration successfully recovers the empirical validity back to the $\approx 0.90$ target across all subsequent months, proving the robustness of the method in dynamic environments.}
 
 \reviewer{4. Some minor issues: Figure ?? in Page 8.}
 
@@ -36,38 +36,38 @@ We sincerely thank the reviewers for their insightful and constructive feedback.
 
 \reviewer{- The empirical advantage is not fully convincing. FC-GNN does not consistently outperform strong baselines in point prediction...}
 
-\response{We acknowledge that FC-GNN does not always achieve the highest point prediction accuracy (e.g., on CIC-IDS-2017). We have updated the text in Section 5.4.1 and Section 7.5 to state this clearly. The primary contribution of FC-GNN is not point-prediction supremacy, but rather providing conditional coverage guarantees (which marginal models fail to do) with higher efficiency than RR-GNN, even if it requires a slight trade-off in accuracy due to L1 rule pruning.}
+\response{We acknowledge that FC-GNN does not always achieve the highest point prediction accuracy (e.g., on CIC-IDS-2017). We have updated the text in Section 4.4.1 and Section 5.5 to state this clearly. The primary contribution of FC-GNN is not point-prediction supremacy, but rather providing conditional coverage guarantees (which marginal models fail to do) with higher efficiency than RR-GNN, even if it requires a slight trade-off in accuracy due to L1 rule pruning.}
 
 \reviewer{- The coverage claims are somewhat overstated. FC-GNN still falls below the 0.90 target on several datasets, so the paper should more carefully distinguish theoretical guarantees from empirical violations under drift.}
 
-\response{We have refined our claims throughout the paper (Abstract, Introduction, and Discussion). Specifically, in Section 7.3, we explicitly separate the theoretical Mondrian coverage (under exchangeability) from the empirical violations observed under chronological drift, acknowledging that drift violates the underlying assumptions.}
+\response{We have refined our claims throughout the paper (Abstract, Introduction, and Discussion). Specifically, in Section 5.3, we explicitly separate the theoretical Mondrian coverage (under exchangeability) from the empirical violations observed under chronological drift, acknowledging that drift violates the underlying assumptions.}
 
 \reviewer{- The theoretical guarantee relies on strong assumptions, especially fuzzy permutation invariance and consistent community assignment. These assumptions may not hold in realistic cybersecurity graphs...}
 
-\response{We completely agree. We have added a dedicated paragraph in the Limitations section (Section 7.5) discussing how adversarial behavior, temporal drift, and evolving attack communities threaten the fuzzy permutation invariance assumption in realistic networks.}
+\response{We completely agree. We have added a dedicated paragraph in Section 5.3 (Exchangeability and Concept Drift) discussing how adversarial behavior, temporal drift, and evolving attack communities threaten the fuzzy permutation invariance assumption in realistic networks.}
 
 \reviewer{- The graph construction protocol is not sufficiently clear. Since many tabular cybersecurity datasets are converted into graphs, the paper should better justify node/edge definitions...}
 
-\response{We have expanded Section 5.1.1 to explicitly justify our graph construction. We clarify that defining nodes as unique IPs and edges as directional flows captures the natural homophily and lateral movement typical of botnets, preserving structural dependencies that tabular models ignore.}
+\response{We have expanded Section 4.1.1 to explicitly justify our graph construction. We clarify that defining nodes as unique IPs and edges as directional flows captures the natural homophily and lateral movement typical of botnets, preserving structural dependencies that tabular models ignore.}
 
 \reviewer{- The runtime and scalability discussion is limited. Louvain partitioning, fuzzy rule evaluation, and conformal calibration may become costly on large dynamic enterprise networks.}
 
-\response{We have expanded the Scalability discussion (Section 7.2) to acknowledge the bottlenecks in dynamic enterprise environments. We note that continuous recalibration, frequent graph updates, and re-computing Louvain communities are costly, and point toward incremental community detection as a necessary future step.}
+\response{We have expanded the Scalability discussion (Section 5.2) to acknowledge the bottlenecks in dynamic enterprise environments. We note that continuous recalibration, frequent graph updates, and re-computing Louvain communities are costly, and point toward incremental community detection as a necessary future step.}
 
 \reviewer{- The related work misses important GNN security literature. Since the paper targets cybersecurity and robust GNN deployment, it should discuss graph adversarial threats such as node injection attacks and defenses, e.g., GZOO, and DShield.}
 
-\response{Thank you for these excellent references. We have added a new paragraph in Section 2.4 discussing adversarial threats against GNNs, specifically citing GZOO (Smith et al., 2024) and DShield (Lee et al., 2023) to highlight the critical need for robust deployments.}
+\response{Thank you for these excellent references. We have added a new paragraph in Section 2.4 discussing adversarial threats against GNNs, specifically citing GZOO (Yu et al., 2025) and DShield (Yu et al., 2025) to highlight the critical need for robust deployments.}
 
 
 \section*{Reviewer 3}
 
 \reviewer{1: Fixed global Sugeno $\lambda$ parameter... A single $\lambda$ value may not optimally represent all attack communities.}
 
-\response{We completely agree with this insight. We have updated our Limitations section (Section 7.5) to explicitly discuss that a static, global $\lambda$ is sub-optimal given the diverse structural characteristics of attacks (e.g., dense propagation in DDoS vs. sparse chains in malware). We now propose community-adaptive $\lambda$ as a key direction for future work.}
+\response{We completely agree with this insight. We have updated our Limitations section (Section 5.5) to explicitly discuss that a static, global $\lambda$ is sub-optimal given the diverse structural characteristics of attacks (e.g., dense propagation in DDoS vs. sparse chains in malware). We now propose community-adaptive $\lambda$ as a key direction for future work.}
 
 \reviewer{2. Interpretability remains partially empirical rather than theoretically grounded... Thus, explanation reliability under adversarial conditions requires further investigation.}
 
-\response{We have added a new paragraph to the Limitations section (Section 7.5) titled "Interpretability versus Causality." We explicitly state that the fuzzy rules currently capture structural correlation rather than causal mechanisms, making them susceptible to adversarial feature manipulation. We acknowledge that true causal reliability is an important unresolved challenge.}
+\response{We have added a new paragraph to the Limitations section (Section 5.5) titled "Interpretability versus Causality." We explicitly state that the fuzzy rules currently capture structural correlation rather than causal mechanisms, making them susceptible to adversarial feature manipulation. We acknowledge that true causal reliability is an important unresolved challenge.}
 
 \reviewer{Since the paper focuses on structural uncertainty in graph anomaly detection, structural entropy provides a complementary theoretical perspective... Zeng X, Peng H, Li A. Proactive Bot Detection Based on Structural Information Principles...}
 

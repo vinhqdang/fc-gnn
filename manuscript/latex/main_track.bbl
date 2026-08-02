@@ -1,0 +1,302 @@
+\begin{thebibliography}{53}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{{#1}}
+\providecommand{\urlprefix}{URL }
+\providecommand{\doi}[1]{\url{https://doi.org/#1}}
+\providecommand{\eprint}[2][]{\url{#2}}
+ \bibcommenthead
+
+\bibitem[{Akg{\"u}l et~al.(2025)Akg{\"u}l, Kannan, and Prasanna}]{akgul25}
+Akg{\"u}l {\"O}F, Kannan R, Prasanna V (2025) Conformal prediction for
+  federated {GNNs} with missing neighbor information. In: Proceedings of the
+  Conference on Uncertainty in Artificial Intelligence (UAI), pp 45--63
+
+\bibitem[{Angelopoulos and Bates(2021)}]{angelopoulos21}
+Angelopoulos AN, Bates S (2021) A gentle introduction to conformal prediction
+  and distribution-free uncertainty quantification. arXiv preprint
+  arXiv:210707511 \doi{https://doi.org/10.48550/arXiv.2107.07511}
+
+\bibitem[{Bai et~al.(2025)Bai, Zheng, and Zeng}]{crcs_gad}
+Bai S, Zheng X, Zeng DD (2025) Crc-sgad: Conformal risk control for supervised
+  graph anomaly detection. In: 2025 IEEE International Conference on
+  Intelligence and Security Informatics (ISI), IEEE, pp 151--156,
+  \doi{https://doi.org/10.48550/arXiv.2504.02248}, arXiv:2504.02248
+
+\bibitem[{Barber et~al.(2023)Barber, Cand{\`e}s, Tibshirani, and
+  Wager}]{barber23}
+Barber RF, Cand{\`e}s EJ, Tibshirani RJ, et~al (2023) Conformal prediction
+  beyond exchangeability. The Annals of Statistics 51(2):816--845.
+  \doi{https://doi.org/10.1214/23-aos2276}
+
+\bibitem[{Bilot et~al.(2023)Bilot, El~Madhoun, Al~Agha, and
+  Zouaoui}]{gnn_ids_survey}
+Bilot T, El~Madhoun N, Al~Agha K, et~al (2023) Graph neural networks for
+  intrusion detection: A survey. IEEe Access 11:49114--49139.
+  \doi{https://doi.org/10.1109/ACCESS.2023.3275789}
+
+\bibitem[{Blondel et~al.(2008)Blondel, Guillaume, Lambiotte, and
+  Lefebvre}]{blondel08}
+Blondel VD, Guillaume JL, Lambiotte R, et~al (2008) Fast unfolding of
+  communities in large networks. Journal of Statistical Mechanics: Theory and
+  Experiment 2008(10):P10008.
+  \doi{https://doi.org/10.1088/1742-5468/2008/10/p10008}
+
+\bibitem[{{Canadian Institute for Cybersecurity}(2017)}]{cicids2017}
+{Canadian Institute for Cybersecurity} (2017) {CIC-IDS-2017} dataset.
+  \urlprefix\url{https://www.unb.ca/cic/datasets/ids-2017.html}
+
+\bibitem[{Clarkson(2023)}]{clarkson23}
+Clarkson J (2023) Distribution free prediction sets for node classification.
+  In: International conference on machine learning, PMLR, pp 6268--6278
+
+\bibitem[{{Czech Technical University}(2011)}]{ctu13}
+{Czech Technical University} (2011) {CTU-13} botnet dataset.
+  \urlprefix\url{https://www.stratosphereips.org/datasets-ctu13}
+
+\bibitem[{Dang(2023)}]{dang23ids}
+Dang QV (2023) Conformal prediction in the intrusion detection problem. Journal
+  of Information Assurance and Security 18(1)
+
+\bibitem[{Dang(2024)}]{dang24fuzzy}
+Dang QV (2024) Fuzzy embedding to detect intrusion in software-defined
+  networks. In: Intelligent and Fuzzy Systems. Springer, Lecture Notes in
+  Networks and Systems, \doi{https://doi.org/10.1007/978-3-031-67195-1_78}
+
+\bibitem[{Dang and Nguyen(2023)}]{dang23wifi}
+Dang QV, Nguyen TL (2023) Detecting intrusion in {WiFi} network using graph
+  neural networks. In: Proceedings of the International Conference on Computer,
+  Communication, Control and Electronics Engineering (ICCCES). Springer
+
+\bibitem[{Dang and Pham(2024{\natexlab{a}})}]{dang24federated}
+Dang QV, Pham TH (2024{\natexlab{a}}) Detecting {IoT} malware using federated
+  learning. In: Communications in Computer and Information Science. Springer
+
+\bibitem[{Dang and Pham(2024{\natexlab{b}})}]{dang24botnet}
+Dang QV, Pham TH (2024{\natexlab{b}}) Kernel methods for conformal prediction
+  to detect botnets. In: Proceedings of the International Conference on
+  Artificial Intelligence and its Applications (AITA), Lecture Notes in
+  Networks and Systems, vol 843. Springer,
+  \doi{https://doi.org/10.1007/978-981-99-8476-3_3}
+
+\bibitem[{Dang et~al.(2026)Dang, Nguyen, and Vo}]{dang26confide}
+Dang QV, Nguyen NSA, Vo TBD (2026) {CONFIDE}: {CON}formal free inference for
+  distribution-free estimation in causal competing risks. Mathematics
+  14(2):383. \doi{https://doi.org/10.3390/math14020383}
+
+\bibitem[{Davis et~al.(2025)Davis, Gallagher, Lawson, and
+  Rubin-Delanchy}]{ncp2025}
+Davis E, Gallagher I, Lawson DJ, et~al (2025) Valid conformal prediction for
+  dynamic {GNNs}. arXiv preprint arXiv:240519230
+  \doi{https://doi.org/10.48550/arXiv.2405.19230}
+
+\bibitem[{Du et~al.(2024)Du, Zhou, Liu, and She}]{flgnn}
+Du B, Zhou J, Liu L, et~al (2024) Fl-gnn: Efficient fusion of fuzzy neural
+  network and graph neural network. In: ECAI 2024: 27th European Conference on
+  Artificial Intelligence, 19--24 October 2024, Santiago de Compostela,
+  Spain--Including 13th Conference on Prestigious Applications of Intelligent
+  Systems (PAIS 2024), SAGE Publications Pvt. Ltd 1 Oliver's Yard, 55 City
+  Road, London, EC1Y 1SP, pp 1768--1775,
+  \doi{https://doi.org/10.3233/FAIA240687}
+
+\bibitem[{Elhag et~al.(2015)Elhag, Fern{\'a}ndez, Bawakid, Alshomrani, and
+  Herrera}]{gfs_gan}
+Elhag S, Fern{\'a}ndez A, Bawakid A, et~al (2015) On the combination of genetic
+  fuzzy systems and pairwise learning for improving detection rates on
+  intrusion detection systems. Expert Systems with Applications 42(1):193--202.
+  \doi{https://doi.org/10.1016/j.eswa.2014.08.002}
+
+\bibitem[{Farrukh et~al.(2025)Farrukh, Wali, Khan, and Bastian}]{xgnid}
+Farrukh YA, Wali S, Khan I, et~al (2025) {XG-NID}: Dual-modality network
+  intrusion detection using a heterogeneous graph neural network and large
+  language model. Expert Systems with Applications 287:128089.
+  \doi{https://doi.org/10.1016/j.eswa.2025.128089}
+
+\bibitem[{Garc{\'\i}a and DeCastro-Garc{\'\i}a(2025)}]{cp_drift}
+Garc{\'\i}a DE, DeCastro-Garc{\'\i}a N (2025) Conformal prediction for
+  labelling and updating online models in the presence of concept drift in
+  cybersecurity. Journal of Information Security and Applications 93:104120.
+  \doi{https://doi.org/10.1016/j.jisa.2025.104120}
+
+\bibitem[{Guerra et~al.(2025)Guerra, Chapuis, Duc, Mozharovskyi, and
+  Nguyen}]{graphids}
+Guerra L, Chapuis T, Duc G, et~al (2025) Self-supervised learning of graph
+  representations for network intrusion detection ({GraphIDS}). In: Advances in
+  Neural Information Processing Systems (NeurIPS),
+  \doi{https://doi.org/10.48550/arXiv.2509.16625}, arXiv:2509.16625
+
+\bibitem[{Hamilton et~al.(2017)Hamilton, Ying, and Leskovec}]{hamilton17}
+Hamilton WL, Ying R, Leskovec J (2017) Inductive representation learning on
+  large graphs. In: Advances in Neural Information Processing Systems
+  (NeurIPS), \doi{https://doi.org/10.48550/arXiv.1706.02216}, arXiv:1706.02216
+
+\bibitem[{Huang et~al.(2023)Huang, Jin, Cand{\`e}s, and Leskovec}]{cfgnn}
+Huang K, Jin Y, Cand{\`e}s EJ, et~al (2023) Uncertainty quantification over
+  graph with conformalized graph neural networks. In: Advances in Neural
+  Information Processing Systems (NeurIPS),
+  \doi{https://doi.org/10.48550/arXiv.2305.14535}, arXiv:2305.14535
+
+\bibitem[{Johnpeter and Karuppanan(2025)}]{fuzzy_sdn}
+Johnpeter T, Karuppanan S (2025) Fuzzy-rule based optimized hybrid deep
+  learning model for network intrusion detection in sdn enabled iot network.
+  Computers \& Security 152:104372.
+  \doi{https://doi.org/10.1016/j.cose.2025.104372}
+
+\bibitem[{Khaled et~al.(2026)Khaled, De~Marinis, Louati, Ferras, Genga, and
+  Kaymak}]{fgenconv}
+Khaled Q, De~Marinis P, Louati M, et~al (2026) Explainable fuzzy {GNNs} for
+  leak detection in water distribution networks. arXiv preprint arXiv:260103062
+  \doi{https://doi.org/10.48550/arXiv.2601.03062}
+
+\bibitem[{Kipf and Welling(2017)}]{kipf17}
+Kipf TN, Welling M (2017) Semi-supervised classification with graph
+  convolutional networks. In: The Fifth International Conference on Learning
+  Representations (ICLR), \doi{https://doi.org/10.48550/arXiv.1609.02907},
+  arXiv:1609.02907
+
+\bibitem[{Koning and van Meer(2026)}]{fuzzy_cp_evalue}
+Koning N, van Meer R (2026) Fuzzy prediction sets: Conformal prediction with
+  {E}-values. arXiv preprint arXiv:250913130
+  \doi{https://doi.org/10.48550/arXiv.2509.13130}
+
+\bibitem[{Koroniotis et~al.(2020)}]{nfbotiot}
+Koroniotis N, et~al (2020) {NF-BoT-IoT} dataset.
+  \urlprefix\url{https://staff.itee.uq.edu.au/marius/NIDS_datasets/}
+
+\bibitem[{Meidan et~al.(2018)}]{nbaiot}
+Meidan Y, et~al (2018) {N-BaIoT}: Network-based detection of {IoT} botnet
+  attacks. \urlprefix\url{https://archive.ics.uci.edu/dataset/442}
+
+\bibitem[{Qaiser and Chandrasekaran(2026)}]{damba26}
+Qaiser G, Chandrasekaran S (2026) Denoising adaptive multi-branch architecture
+  for detecting cyber attacks in industrial internet of services. Journal of
+  Cybersecurity and Privacy 6(1):26. \doi{https://doi.org/10.3390/jcp6010026}
+
+\bibitem[{Qiu et~al.(2025)Qiu, Shi, and Fan}]{fuzzy_iot}
+Qiu X, Shi L, Fan P (2025) A cooperative intrusion detection system for {IoT}
+  using fuzzy logic and ensemble of convolutional neural networks. Scientific
+  Reports 15:15934. \doi{https://doi.org/10.1038/s41598-025-99938-1}
+
+\bibitem[{Sengupta and Rekik(2025)}]{firegnn}
+Sengupta P, Rekik I (2025) {FireGNN}: Neuro-symbolic {GNNs} with trainable
+  fuzzy rules. arXiv preprint arXiv:250910510
+  \doi{https://doi.org/10.48550/arXiv.2509.10510}
+
+\bibitem[{Song et~al.(2024)Song, Huang, Jiang, Zhang, Li, and Wang}]{snaps}
+Song J, Huang J, Jiang W, et~al (2024) Similarity-navigated conformal
+  prediction for graph neural networks. In: Advances in Neural Information
+  Processing Systems (NeurIPS),
+  \doi{https://doi.org/10.48550/arXiv.2405.14303}, arXiv:2405.14303
+
+\bibitem[{Sugeno(1974)}]{sugeno74}
+Sugeno M (1974) Theory of fuzzy integrals and its applications. PhD thesis,
+  Tokyo Institute of Technology
+
+\bibitem[{Sun et~al.(2024)Sun, Teixeira, and Toor}]{gnnids}
+Sun Z, Teixeira AM, Toor S (2024) Gnn-ids: Graph neural network based intrusion
+  detection system. In: Proceedings of the 19th international conference on
+  availability, reliability and security, pp 1--12,
+  \doi{https://doi.org/10.1145/3664476.3664515}
+
+\bibitem[{Tran et~al.(2025)Tran, Tong, Nguyen, and Nguyen}]{fgnn_survey}
+Tran ND, Tong TN, Nguyen TKP, et~al (2025) Fuzzy graph neural networks: A
+  comprehensive review of uncertainty-aware graph learning. EAI Endorsed
+  Transactions on Context-Aware Systems and Applications 10.
+  \doi{https://doi.org/10.4108/eetcasa.9483}
+
+\bibitem[{{University of New Brunswick}(2014)}]{iscx14}
+{University of New Brunswick} (2014) {ISCX} botnet 2014 dataset.
+  \urlprefix\url{https://www.unb.ca/cic/datasets/botnet.html}
+
+\bibitem[{{UNSW}(2020)}]{toniot}
+{UNSW} (2020) {ToN-IoT} dataset.
+  \urlprefix\url{https://research.unsw.edu.au/projects/toniot-datasets}
+
+\bibitem[{{UNSW Canberra}(2015)}]{unswNB15}
+{UNSW Canberra} (2015) {UNSW-NB15} dataset.
+  \urlprefix\url{https://research.unsw.edu.au/projects/unsw-nb15-dataset}
+
+\bibitem[{Vovk et~al.(2005)Vovk, Gammerman, and Shafer}]{vovk05}
+Vovk V, Gammerman A, Shafer G (2005) Algorithmic Learning in a Random World.
+  Springer, \doi{https://doi.org/10.1007/b106715}
+
+\bibitem[{Wang et~al.(2025{\natexlab{a}})Wang, Kang, Yan, Kulkarni, and
+  Zhou}]{ncpnet25}
+Wang T, Kang J, Yan Y, et~al (2025{\natexlab{a}}) Non-exchangeable conformal
+  prediction for temporal {GNNs}. arXiv preprint arXiv:250702151
+  \doi{https://doi.org/10.48550/arXiv.2507.02151}
+
+\bibitem[{Wang et~al.(2025{\natexlab{b}})Wang, Zhou, and Luo}]{confrank25}
+Wang T, Zhou Z, Luo R (2025{\natexlab{b}}) Enhancing trustworthiness of graph
+  neural networks with rank-based conformal training. In: Proceedings of the
+  AAAI Conference on Artificial Intelligence, pp 21261--21268,
+  \doi{https://doi.org/10.1609/aaai.v39i20.35425}
+
+\bibitem[{Xing et~al.(2025{\natexlab{a}})Xing, Luo, Cheng, Xue, and
+  Xing}]{mfgat}
+Xing J, Luo D, Cheng Q, et~al (2025{\natexlab{a}}) Multiview fuzzy graph
+  attention networks for enhanced graph learning. In: Tenth International
+  Workshop on Pattern Recognition, SPIE, pp 62--70,
+  \doi{https://doi.org/10.1117/12.3076369}
+
+\bibitem[{Xing et~al.(2025{\natexlab{b}})Xing, Xing, Xue, and Luo}]{fgat}
+Xing J, Xing R, Xue C, et~al (2025{\natexlab{b}}) Enhancing link prediction
+  with fuzzy graph attention networks and dynamic negative sampling. In:
+  Proceedings of the 2025 10th International Conference on Multimedia Systems
+  and Signal Processing (ICMSSP 2025), Springer, pp 187--197,
+  \doi{https://doi.org/10.1007/978-3-032-05994-9_16}, arXiv:2411.07482
+
+\bibitem[{Yu et~al.(2025{\natexlab{a}})Yu, Liang, Hu, Tu, Ma, Zhou, and
+  Liu}]{gzoo2024}
+Yu H, Liang K, Hu D, et~al (2025{\natexlab{a}}) {GZOO}: Black-box node
+  injection attack on graph neural networks via zeroth-order optimization. IEEE
+  Transactions on Knowledge and Data Engineering 37(1):319--333.
+  \doi{https://doi.org/10.1109/tkde.2024.3483274}
+
+\bibitem[{Yu et~al.(2025{\natexlab{b}})Yu, Ma, Wan, Wang, Xiang, Shen, and
+  Liu}]{dshield2023}
+Yu H, Ma C, Wan X, et~al (2025{\natexlab{b}}) {DShield}: Defending against
+  backdoor attacks on graph neural networks via discrepancy learning. In:
+  Proceedings of the Network and Distributed System Security Symposium (NDSS),
+  \doi{https://doi.org/10.14722/ndss.2025.240798}
+
+\bibitem[{Yuan et~al.(2026)Yuan, Li, Wang, and Zhang}]{cp_cps26}
+Yuan S, Li J, Wang C, et~al (2026) Conformal machine learning for reliable
+  anomaly detection in industrial cyber-physical systems. Reliability
+  Engineering \& System Safety p 112417.
+  \doi{https://doi.org/10.1016/j.ress.2026.112417}
+
+\bibitem[{Yumlembam et~al.(2024)Yumlembam, Issac, Jacob, and Yang}]{botnet_cp}
+Yumlembam R, Issac B, Jacob SM, et~al (2024) Comprehensive botnet detection by
+  mitigating adversarial attacks, navigating the subtleties of perturbation
+  distances and fortifying predictions with conformal layers. Information
+  Fusion 111:102529. \doi{https://doi.org/10.1016/j.inffus.2024.102529}
+
+\bibitem[{Zargarbashi et~al.(2023)Zargarbashi, Antonelli, and
+  Bojchevski}]{daps}
+Zargarbashi SH, Antonelli S, Bojchevski A (2023) Conformal prediction sets for
+  graph neural networks. In: Proceedings of the International Conference on
+  Machine Learning (ICML)
+
+\bibitem[{Zeng et~al.(2020)Zeng, Zhou, Srivastava, Kannan, and
+  Prasanna}]{zeng20}
+Zeng H, Zhou H, Srivastava A, et~al (2020) {GraphSAINT}: Graph sampling based
+  inductive learning method. In: The Eighth International Conference on
+  Learning Representations (ICLR),
+  \doi{https://doi.org/10.48550/arXiv.1907.04931}, arXiv:1907.04931
+
+\bibitem[{Zeng et~al.(2026)Zeng, Peng, and Li}]{zeng2025structural}
+Zeng X, Peng H, Li A (2026) Proactive bot detection based on structural
+  information principles. IEEE Transactions on Pattern Analysis and Machine
+  Intelligence 48(4). \doi{https://doi.org/10.1109/tpami.2025.3646644}
+
+\bibitem[{Zhang et~al.(2025)Zhang, Bao, Zhou, Colombo, Cheng, and Luo}]{rrgnn}
+Zhang Z, Bao J, Zhou Z, et~al (2025) Residual reweighted conformal prediction
+  for graph neural networks. In: Proceedings of the Conference on Uncertainty
+  in Artificial Intelligence (UAI), pp 4982--4999,
+  \doi{https://doi.org/10.48550/arXiv.2506.07854}, arXiv:2506.07854
+
+\bibitem[{Zhou et~al.(2026)Zhou, Chen, Gui, and Cheng}]{cp_survey}
+Zhou X, Chen B, Gui Y, et~al (2026) Conformal prediction: {A} data perspective.
+  {ACM} Comput Surv 58(2):49:1--49:37. \doi{https://doi.org/10.1145/3736575}
+
+\end{thebibliography}

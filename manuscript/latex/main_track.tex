@@ -17,7 +17,15 @@
 \usepackage{tablefootnote}
 
 % For highlighting revisions
-\newcommand{\rev}[1]{#1} % In clean version, just output text. In highlighted, this is redefined.
+% Tracked-changes build: revised/added text is shown in blue. Ordinary
+% hyperref links are forced to black here so blue is reserved exclusively
+% for revision markup (the class default otherwise colors citations/links
+% blue too, which would be indistinguishable from \rev highlighting).
+% Keep this file's \rev{...} definition in sync with the passages marked
+% via \rev{...} in the shared section files (0_abstract.tex .. 6_conclusion.tex);
+% main.tex uses the identity definition for the clean submission copy.
+\newcommand{\rev}[1]{\textcolor{blue}{#1}}
+\hypersetup{colorlinks=true, linkcolor=black, citecolor=black, urlcolor=black}
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}
@@ -54,6 +62,10 @@
 \affil*[1]{\orgdiv{Anonymous Department}, \orgname{Anonymous University}, \country{Anonymous Country}}
 
 \maketitle
+
+\begin{center}
+\textcolor{blue}{\textbf{Revised manuscript --- changes made in response to reviewers are highlighted in blue.}}
+\end{center}
 
 \input{0_abstract}
 \input{1_intro}
