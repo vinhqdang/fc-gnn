@@ -6,10 +6,11 @@ We presented \textbf{FC-GNN}, the first method to simultaneously provide
 anomaly detection, (ii) distribution-free, community-conditional coverage
 guarantees via Fuzzy Mondrian Conformal Prediction, and (iii) human-interpretable
 IF-THEN rule explanations aligned with MITRE ATT\&CK.
-Experiments on seven cybersecurity benchmarks confirm that FC-GNN provides
-robust conditional coverage across graph communities, while achieving prediction-set
-efficiency competitive with or superior to the leading Mondrian CP baseline
-(RR-GNN) on three datasets.
+Experiments on seven cybersecurity benchmarks confirm that FC-GNN provides theoretical
+conditional coverage under the stated exchangeability assumptions (empirical mean
+coverage $0.903$, reaching target on $3/7$ chronological-split datasets), while achieving
+prediction-set efficiency competitive with or superior to the leading Mondrian CP baseline
+(RR-GNN) on five datasets.
 A formal coverage theorem establishes the finite-sample conditional
 coverage slack as $O(|Q_m|^{-1/2})$ under the fuzzy permutation-invariance
 condition.
