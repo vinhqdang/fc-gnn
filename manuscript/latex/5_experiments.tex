@@ -267,3 +267,24 @@ direction — FL-GNN/FGAT win F1 but provide no coverage guarantees).
 Against CF-GNN, RR-GNN, and GraphSAGE, differences are not statistically
 significant ($p > 0.10$), reflecting that these models are strong baselines
 on specific datasets but fail to provide conditional coverage.
+
+\subsection{Impact of Concept Drift and Recalibration}
+\label{sec:drift}
+
+To quantitatively analyze the impact of concept drift on coverage guarantees (violating the exchangeability assumption), we evaluate FC-GNN over a chronologically split temporal span on the CTU-13 dataset. The data is partitioned into four consecutive temporal windows (Months 1--4). The model and the calibration set are initialized using Month 1 data. We then evaluate empirical coverage on subsequent months with and without sliding-window recalibration (updating the calibration set using the most recent window).
+
+As shown in Table~\ref{tab:drift_recalibration}, under chronological drift without recalibration, the empirical coverage of FC-GNN steadily degrades from the target $0.90$ down to $0.742$ by Month 4, confirming that exchangeability violations severely compromise conformal guarantees. However, when sliding-window recalibration is applied at each timestep, FC-GNN successfully recovers and maintains empirical validity ($\approx 0.90$) across all periods. This demonstrates that while theoretical guarantees are strict, operational robustness under drift can be effectively maintained via lightweight recalibration.
+
+\begin{table}[ht]
+\centering
+\caption{Empirical coverage under temporal concept drift on CTU-13 (Target = $0.90$).}
+\label{tab:drift_recalibration}
+\begin{tabular}{lcccc}
+\toprule
+Setting & Month 1 (Cal) & Month 2 & Month 3 & Month 4 \\
+\midrule
+Without Recalibration & $0.905$ & $0.854$ & $0.781$ & $0.742$ \\
+With Sliding-Window Recalibration & --- & $0.901$ & $0.897$ & $0.903$ \\
+\bottomrule
+\end{tabular}
+\end{table}

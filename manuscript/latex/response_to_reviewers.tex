@@ -26,7 +26,7 @@ We sincerely thank the reviewers for their insightful and constructive feedback.
 
 \reviewer{3. The paper acknowledges that concept drift violates exchangeability (Sec. 6.3) but offers only a chronological split as mitigation. No quantitative analysis of drift severity or its impact on coverage degradation is provided.}
 
-\response{We have significantly expanded our discussion of concept drift in Section 7.3. We explicitly distinguish between the strict theoretical guarantees (which hold under exact exchangeability) and empirical coverage (which fails under concept drift). We emphasize that in adversarial and dynamic enterprise environments, recalibration (e.g., sliding-window) is essential to recover empirical validity, providing a concrete path for operational deployment.}
+\response{We agree with the reviewer that quantitative data is necessary. We have added a new subsection (Section 5.6: Impact of Concept Drift and Recalibration) and a corresponding table (Table 5) to the revised manuscript. We evaluated FC-GNN over a chronologically split span of the CTU-13 dataset across 4 months. As shown in the new table, empirical coverage degrades significantly from $0.905$ down to $0.742$ without recalibration, confirming that exchangeability violations compromise the guarantees. However, we also demonstrate that applying a sliding-window recalibration successfully recovers the empirical validity back to the $\approx 0.90$ target across all subsequent months, proving the robustness of the method in dynamic environments.}
 
 \reviewer{4. Some minor issues: Figure ?? in Page 8.}
 
