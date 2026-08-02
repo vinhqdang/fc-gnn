@@ -233,11 +233,14 @@ Mean   & .079 & .075 \\
 \end{tabular}
 \end{table}
 
-FC-GNN achieves a smaller coverage gap than RR-GNN on four of seven datasets
-(UNSW-NB15: $0.077$ vs $0.053$; NF-BoT-IoT: $0.038$ vs $0.054$;
-ISCX-Botnet: $0.082$ vs $0.064$; ToN-IoT: $0.058$ vs $0.057$),
-demonstrating that the Sugeno integral provides more uniform
-per-community calibration.
+RR-GNN achieves a marginally smaller mean coverage gap than FC-GNN
+($0.075$ vs $0.079$), with FC-GNN ahead on two of seven datasets
+(NF-BoT-IoT: $0.038$ vs $0.054$; N-BaIoT: $0.060$ vs $0.100$) and the two
+methods tied on CTU-13.
+The two methods are therefore broadly comparable on conditional-coverage
+tightness; FC-GNN's advantage instead lies in prediction-set efficiency
+(Table~\ref{tab:cp_main}: mean APSS $1.18$ vs $1.76$), achieving smaller
+prediction sets at comparable coverage validity.
 
 \begin{figure}[t]
   \centering
@@ -271,7 +274,8 @@ per-community calibration.
   \includegraphics[width=\columnwidth]{coverage_gap}
   \caption{Coverage gap (worst-case deviation from target coverage per
            community) for Mondrian CP models.
-           Lower is better; FC-GNN outperforms RR-GNN on four datasets.}
+           Lower is better; FC-GNN and RR-GNN are broadly comparable, each
+           outperforming the other on a subset of datasets.}
   \label{fig:covgap}
 \end{figure}
 

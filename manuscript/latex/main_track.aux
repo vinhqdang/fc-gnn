@@ -166,8 +166,8 @@
 \newlabel{fig:frontier}{{4}{15}{Coverage--efficiency frontier on three representative datasets. FC-GNN ($\star $) sits in the desirable upper-left region on UNSW-NB15 and NF-BoT-IoT, achieving both high coverage and low APSS}{figure.caption.26}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.6}Impact of Concept Drift and Recalibration}{15}{subsection.4.6}\protected@file@percent }
 \newlabel{sec:drift}{{4.6}{15}{Impact of Concept Drift and Recalibration}{subsection.4.6}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Coverage gap (worst-case deviation from target coverage per community) for Mondrian CP models. Lower is better; FC-GNN outperforms RR-GNN on four datasets.}}{16}{figure.caption.27}\protected@file@percent }
-\newlabel{fig:covgap}{{5}{16}{Coverage gap (worst-case deviation from target coverage per community) for Mondrian CP models. Lower is better; FC-GNN outperforms RR-GNN on four datasets}{figure.caption.27}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Coverage gap (worst-case deviation from target coverage per community) for Mondrian CP models. Lower is better; FC-GNN and RR-GNN are broadly comparable, each outperforming the other on a subset of datasets.}}{16}{figure.caption.27}\protected@file@percent }
+\newlabel{fig:covgap}{{5}{16}{Coverage gap (worst-case deviation from target coverage per community) for Mondrian CP models. Lower is better; FC-GNN and RR-GNN are broadly comparable, each outperforming the other on a subset of datasets}{figure.caption.27}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Macro-F1 heatmap (all models and datasets). The FC-GNN column (highlighted) shows competitive performance across all datasets while FL-GNN/FGAT achieve higher F1 at the cost of providing no coverage guarantees.}}{16}{figure.caption.28}\protected@file@percent }
 \newlabel{fig:heatmap_f1}{{6}{16}{Macro-F1 heatmap (all models and datasets). The FC-GNN column (highlighted) shows competitive performance across all datasets while FL-GNN/FGAT achieve higher F1 at the cost of providing no coverage guarantees}{figure.caption.28}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Empirical coverage under temporal concept drift on CTU-13 (Target = $0.90$).}}{17}{table.caption.30}\protected@file@percent }
@@ -178,28 +178,27 @@
 \@writefile{toc}{\contentsline {paragraph}{Rule Fidelity.}{17}{section*.31}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Explanation Stability.}{17}{section*.32}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.2}MITRE ATT\&CK Rule Mapping}{17}{subsubsection.4.7.2}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.3}Uncertain-Prediction Case Study}{17}{subsubsection.4.7.3}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces FC-GNN interpretability metrics across seven cybersecurity datasets. Left: Rule Fidelity (fraction of nodes whose top rule matches the true MITRE ATT\&CK category). Right: Explanation Stability (Jaccard similarity of fired rules for same-class nodes). Red dashed lines = dataset means.}}{18}{figure.caption.33}\protected@file@percent }
 \newlabel{fig:interpretability}{{7}{18}{FC-GNN interpretability metrics across seven cybersecurity datasets. Left: Rule Fidelity (fraction of nodes whose top rule matches the true MITRE ATT\&CK category). Right: Explanation Stability (Jaccard similarity of fired rules for same-class nodes). Red dashed lines = dataset means}{figure.caption.33}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Top-5 fired fuzzy rules on UNSW-NB15 with MITRE ATT\&CK mapping. Feature names from UNSW feature set; membership values are learned Gaussian centres.}}{18}{table.caption.35}\protected@file@percent }
 \newlabel{tab:mitre}{{7}{18}{Top-5 fired fuzzy rules on UNSW-NB15 with MITRE ATT\&CK mapping. Feature names from UNSW feature set; membership values are learned Gaussian centres}{table.caption.35}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{18}{section.5}\protected@file@percent }
-\newlabel{sec:discussion}{{5}{18}{Discussion}{section.5}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Coverage Trade-offs and the Value of Conditional Guarantees}{18}{subsection.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.3}Uncertain-Prediction Case Study}{18}{subsubsection.4.7.3}\protected@file@percent }
 \citation{zeng20}
 \citation{cp_drift}
 \citation{cp_cps26}
 \citation{ncpnet25}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{19}{section.5}\protected@file@percent }
+\newlabel{sec:discussion}{{5}{19}{Discussion}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Coverage Trade-offs and the Value of Conditional Guarantees}{19}{subsection.5.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Scalability}{19}{subsection.5.2}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Exchangeability and Concept Drift}{19}{subsection.5.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Rule Complexity and Pruning}{19}{subsection.5.4}\protected@file@percent }
 \citation{akgul25,dang24federated}
 \citation{ncpnet25}
-\bibdata{ref}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Rule Complexity and Pruning}{20}{subsection.5.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Limitations}{20}{subsection.5.5}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{20}{section.6}\protected@file@percent }
 \newlabel{sec:conclusion}{{6}{20}{Conclusion}{section.6}{}}
-\@writefile{toc}{\contentsline {paragraph}{Future work.}{20}{section*.36}\protected@file@percent }
+\bibdata{ref}
 \bibcite{akgul25}{{1}{2025}{{Akg{\"u}l et~al.}}{{Akg{\"u}l, Kannan, and Prasanna}}}
 \bibcite{angelopoulos21}{{2}{2021}{{Angelopoulos and Bates}}{{}}}
 \bibcite{crcs_gad}{{3}{2025}{{Bai et~al.}}{{Bai, Zheng, and Zeng}}}
@@ -209,6 +208,7 @@
 \bibcite{cicids2017}{{7}{2017}{{Canadian Institute for Cybersecurity}}{{}}}
 \bibcite{clarkson23}{{8}{2023}{{Clarkson}}{{}}}
 \bibcite{ctu13}{{9}{2011}{{Czech Technical University}}{{}}}
+\@writefile{toc}{\contentsline {paragraph}{Future work.}{21}{section*.36}\protected@file@percent }
 \bibcite{dang23ids}{{10}{2023}{{Dang}}{{}}}
 \bibcite{dang24fuzzy}{{11}{2024}{{Dang}}{{}}}
 \bibcite{dang23wifi}{{12}{2023}{{Dang and Nguyen}}{{}}}
