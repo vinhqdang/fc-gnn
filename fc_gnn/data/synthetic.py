@@ -99,8 +99,8 @@ def generate_dataset(dataset_name: str, seed: int = 42) -> Dict:
 
     # ---- Generate per-class feature distributions ----
     # Each class has a distinct cluster center
-    class_centers = rng.randn(C, F) * 2.0  # well-separated clusters
-    class_scales = rng.uniform(0.3, 1.5, size=(C, F))
+    class_centers = rng.randn(C, F) * 0.5  # Realistic cluster separation (reduced from 2.0)
+    class_scales = rng.uniform(0.8, 2.5, size=(C, F))  # Increased variance
 
     # Generate features
     x = np.zeros((N, F), dtype=np.float32)

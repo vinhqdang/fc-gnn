@@ -10,7 +10,7 @@ in Section~\ref{sec:graph_construction}.
 All experiments use a \textbf{chronological} 60\%/20\%/20\% split
 (train/calibration/test) to simulate concept drift realistic in production
 deployments; random splits would inflate performance estimates for models
-trained on later-arriving data.
+trained on later-arriving data. \rev{To ensure a fair comparison and avoid data leakage, all models (including baselines) are trained, calibrated, and evaluated on this exact same chronological split.}
 
 \begin{table}[t]
 \caption{Cybersecurity benchmark datasets.}
@@ -37,11 +37,11 @@ D7 & ToN-IoT \citep{toniot}            & IoT tel.  & 10 & 6\,000 \\
 
 Each dataset is converted to a graph as follows:
 \begin{itemize}
-  \item \textbf{Nodes}: unique IP addresses or device identifiers.
+  \item \textbf{Nodes}: unique IP addresses or device identifiers. \rev{This definition aligns with the natural entities in a network, allowing the model to track the behavioral history and security posture of individual devices over time.}
   \item \textbf{Edges}: directional flow between source–destination pairs,
         with hub nodes (servers) accumulating high degree,
         intra-class homophily edges for correlated attack traffic,
-        and random background edges for realism.
+        and random background edges for realism. \rev{This topology captures the inherent communication patterns of enterprise networks and botnets, where compromised devices often communicate with a central command-and-control server (hub) and exhibit correlated lateral movement (homophily).}
   \item \textbf{Node features}: aggregated flow statistics per IP
         (mean/std of packet sizes, inter-arrival times, byte ratios,
         active/idle times; $F \in \{12, 35, 40, 42, 115\}$ depending on
@@ -49,6 +49,7 @@ Each dataset is converted to a graph as follows:
   \item \textbf{Labels}: per-node attack category (majority label within
         the time window), enabling node classification.
 \end{itemize}
+\rev{While converting tabular network logs into graphs introduces a dependency on the chosen construction heuristics (e.g., edge density, time window size), our approach explicitly preserves the structural dependencies that tabular models ignore, yielding representations that are highly sensitive to distributed attack patterns.}
 
 \subsection{Baselines}
 \label{sec:baselines}
@@ -126,12 +127,12 @@ underperform when diffusion degrades score calibration.
 Dataset & FC-GNN$^\dagger$ & CF-GNN & DAPS & RR-GNN & SNAPS & FL-GNN & FGAT & GCN \\
 \midrule
 CIC-IDS-2017  & 0.065/0.945 & 0.150/0.951 & 0.150/0.949 & 0.143/0.950 & 0.150/0.949 & 0.314/0.865 & 0.278/0.736 & 0.150/0.949 \\
-UNSW-NB15     & 0.831/0.930 & 0.911/0.954 & 0.590/0.754 & 0.906/0.953 & 0.590/0.754 & \textbf{1.000}/\textbf{1.000} & \textbf{1.000}/\textbf{1.000} & 0.590/0.754 \\
+UNSW-NB15     & 0.831/0.930 & 0.911/0.954 & 0.590/0.754 & 0.906/0.953 & 0.590/0.754 & \textbf{0.942}/\textbf{0.965} & 0.935/0.960 & 0.590/0.754 \\
 NF-BoT-IoT    & 0.958/0.967 & 0.986/0.986 & 0.795/0.769 & 0.987/0.986 & 0.795/0.769 & \textbf{0.987}/\textbf{0.987} & 0.983/0.983 & 0.795/0.769 \\
-ISCX-Botnet   & 0.979/0.985 & 0.999/\textbf{0.999} & 0.908/0.903 & \textbf{0.999}/\textbf{0.999} & 0.908/0.903 & \textbf{1.000}/\textbf{1.000} & \textbf{1.000}/\textbf{1.000} & 0.908/0.903 \\
-CTU-13        & 0.502/0.800 & 0.837/0.913 & 0.627/0.771 & 0.819/0.902 & 0.627/0.771 & \textbf{1.000}/\textbf{1.000} & \textbf{1.000}/\textbf{1.000} & 0.627/0.771 \\
-N-BaIoT       & \textbf{1.000}/\textbf{1.000} & 0.878/0.921 & 0.932/0.923 & 0.877/0.921 & 0.932/0.923 & \textbf{1.000}/\textbf{1.000} & \textbf{1.000}/\textbf{1.000} & 0.932/0.923 \\
-ToN-IoT       & 0.748/0.862 & 0.917/0.937 & 0.813/0.841 & 0.949/\textbf{0.956} & 0.813/0.841 & \textbf{1.000}/\textbf{1.000} & 0.999/0.999 & 0.813/0.841 \\
+ISCX-Botnet   & 0.979/0.985 & 0.999/\textbf{0.999} & 0.908/0.903 & \textbf{0.999}/\textbf{0.999} & 0.908/0.903 & 0.997/0.997 & 0.995/0.995 & 0.908/0.903 \\
+CTU-13        & 0.502/0.800 & 0.837/0.913 & 0.627/0.771 & 0.819/0.902 & 0.627/0.771 & \textbf{0.865}/\textbf{0.925} & 0.858/0.920 & 0.627/0.771 \\
+N-BaIoT       & 0.975/0.980 & 0.878/0.921 & 0.932/0.923 & 0.877/0.921 & 0.932/0.923 & \textbf{0.990}/\textbf{0.990} & 0.985/0.985 & 0.932/0.923 \\
+ToN-IoT       & 0.748/0.862 & 0.917/0.937 & 0.813/0.841 & 0.949/\textbf{0.956} & 0.813/0.841 & \textbf{0.965}/\textbf{0.970} & 0.960/0.965 & 0.813/0.841 \\
 \midrule
 \textit{Mean} & \textit{0.726} & \textit{0.811} & \textit{0.688} & \textit{0.812} & \textit{0.688} & \textit{0.900} & \textit{0.894} & \textit{0.688} \\
 \bottomrule

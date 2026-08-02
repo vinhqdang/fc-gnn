@@ -1,5 +1,5 @@
-\documentclass[twocolumn]{svjour3}
-\smartqed
+\documentclass[sn-basic]{sn-jnl}
+
 \usepackage{graphicx}
 \usepackage{amsmath,amssymb,amsthm}
 \usepackage{bm}
@@ -12,10 +12,11 @@
 \usepackage{algpseudocode}
 \usepackage{subcaption}
 \usepackage{siunitx}
-\usepackage{natbib}
 \usepackage{microtype}
+\usepackage{xspace}
 
-\journalname{International Journal of Machine Learning and Cybernetics}
+% For highlighting revisions
+\newcommand{\rev}[1]{#1} % In clean version, just output text. In highlighted, this is redefined.
 
 \theoremstyle{plain}
 \newtheorem{theorem}{Theorem}
@@ -43,20 +44,13 @@
 
 \begin{document}
 
-\title{Fuzzy-Conformal Graph Neural Networks with\\
+\title[Fuzzy-Conformal Graph Neural Networks]{Fuzzy-Conformal Graph Neural Networks with\\
        Distribution-Free Coverage Guarantees for\\
        Cybersecurity Anomaly Detection}
 
-\author{Quang-Vinh Dang}
+\author*[1]{\fnm{Anonymous} \sur{Author}}
 
-\institute{
-  Q.-V. Dang \at
-  Faculty of Information Technology, \\
-  Industrial University of Ho Chi Minh City, Vietnam \\
-  \email{dqvinh87@gmail.com}
-}
-
-\date{Received: \today}
+\affil*[1]{\orgdiv{Anonymous Department}, \orgname{Anonymous University}, \country{Anonymous Country}}
 
 \maketitle
 
@@ -70,7 +64,6 @@
 \input{7_discussion}
 \input{8_conclusion}
 
-\bibliographystyle{spbasic}
 \bibliography{ref}
 
 \end{document}

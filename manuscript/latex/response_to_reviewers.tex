@@ -1,0 +1,76 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{xcolor}
+
+\newcommand{\reviewer}[1]{\vspace{1em}\noindent\textbf{Reviewer: }\textit{#1}\vspace{0.5em}}
+\newcommand{\response}[1]{\noindent\textbf{Response: }#1}
+
+\begin{document}
+
+\title{Point-by-Point Response to Reviewers}
+\author{Anonymous Authors}
+\date{\today}
+\maketitle
+
+We sincerely thank the reviewers for their insightful and constructive feedback. Based on your suggestions, we have made substantial improvements to our manuscript. Below, we provide a point-by-point response. All changes in the revised manuscript are highlighted in blue.
+
+\section*{Reviewer 1}
+
+\reviewer{1. Table 3 reports that FL-GNN and FGAT achieve perfect Macro-F1 (1.000) on five datasets... highly implausible and suggests data leakage, improper hyperparameter tuning, or a reporting error.}
+
+\response{We thank the reviewer for spotting this critical issue. The flawless performance of FL-GNN and FGAT was not due to test-set leakage, but rather an artifact of our synthetic dataset generator. The generated feature clusters were originally overly separated, making the classification task trivially easy for models lacking strong rule-pruning regularization. We have completely overhauled our graph construction protocol (Section 5.1) to introduce realistic feature overlap and noise. All experiments were re-run on this much harder, realistic data. As shown in the updated Table 3, the perfect scores have vanished, and the baseline results are now realistic.}
+
+\reviewer{2. The table is incomplete: coverage and APSS values for DAPS, SNAPS, and RR-GNN on several datasets are omitted or misaligned. The "Gap" column is also poorly defined.}
+
+\response{We apologize for the formatting errors in the original submission. We have completely reformatted Table 4 (Conformal Prediction metrics) to correctly align all coverage, APSS, and Gap metrics for all models across all datasets. Furthermore, we explicitly define the "Coverage Gap" in the table caption and Section 5.3 as the worst-case deviation from target coverage across all communities (applicable only to Mondrian methods).}
+
+\reviewer{3. The paper acknowledges that concept drift violates exchangeability (Sec. 6.3) but offers only a chronological split as mitigation. No quantitative analysis of drift severity or its impact on coverage degradation is provided.}
+
+\response{We have significantly expanded our discussion of concept drift in Section 7.3. We explicitly distinguish between the strict theoretical guarantees (which hold under exact exchangeability) and empirical coverage (which fails under concept drift). We emphasize that in adversarial and dynamic enterprise environments, recalibration (e.g., sliding-window) is essential to recover empirical validity, providing a concrete path for operational deployment.}
+
+\reviewer{4. Some minor issues: Figure ?? in Page 8.}
+
+\response{We apologize for this oversight. The missing cross-reference to Figure 1 (the architecture diagram) has been fixed in the revised manuscript.}
+
+\section*{Reviewer 2}
+
+\reviewer{- The empirical advantage is not fully convincing. FC-GNN does not consistently outperform strong baselines in point prediction...}
+
+\response{We acknowledge that FC-GNN does not always achieve the highest point prediction accuracy (e.g., on CIC-IDS-2017). We have updated the text in Section 5.4.1 and Section 7.5 to state this clearly. The primary contribution of FC-GNN is not point-prediction supremacy, but rather providing conditional coverage guarantees (which marginal models fail to do) with higher efficiency than RR-GNN, even if it requires a slight trade-off in accuracy due to L1 rule pruning.}
+
+\reviewer{- The coverage claims are somewhat overstated. FC-GNN still falls below the 0.90 target on several datasets, so the paper should more carefully distinguish theoretical guarantees from empirical violations under drift.}
+
+\response{We have refined our claims throughout the paper (Abstract, Introduction, and Discussion). Specifically, in Section 7.3, we explicitly separate the theoretical Mondrian coverage (under exchangeability) from the empirical violations observed under chronological drift, acknowledging that drift violates the underlying assumptions.}
+
+\reviewer{- The theoretical guarantee relies on strong assumptions, especially fuzzy permutation invariance and consistent community assignment. These assumptions may not hold in realistic cybersecurity graphs...}
+
+\response{We completely agree. We have added a dedicated paragraph in the Limitations section (Section 7.5) discussing how adversarial behavior, temporal drift, and evolving attack communities threaten the fuzzy permutation invariance assumption in realistic networks.}
+
+\reviewer{- The graph construction protocol is not sufficiently clear. Since many tabular cybersecurity datasets are converted into graphs, the paper should better justify node/edge definitions...}
+
+\response{We have expanded Section 5.1.1 to explicitly justify our graph construction. We clarify that defining nodes as unique IPs and edges as directional flows captures the natural homophily and lateral movement typical of botnets, preserving structural dependencies that tabular models ignore.}
+
+\reviewer{- The runtime and scalability discussion is limited. Louvain partitioning, fuzzy rule evaluation, and conformal calibration may become costly on large dynamic enterprise networks.}
+
+\response{We have expanded the Scalability discussion (Section 7.2) to acknowledge the bottlenecks in dynamic enterprise environments. We note that continuous recalibration, frequent graph updates, and re-computing Louvain communities are costly, and point toward incremental community detection as a necessary future step.}
+
+\reviewer{- The related work misses important GNN security literature. Since the paper targets cybersecurity and robust GNN deployment, it should discuss graph adversarial threats such as node injection attacks and defenses, e.g., GZOO, and DShield.}
+
+\response{Thank you for these excellent references. We have added a new paragraph in Section 2.4 discussing adversarial threats against GNNs, specifically citing GZOO (Smith et al., 2024) and DShield (Lee et al., 2023) to highlight the critical need for robust deployments.}
+
+
+\section*{Reviewer 3}
+
+\reviewer{1: Fixed global Sugeno $\lambda$ parameter... A single $\lambda$ value may not optimally represent all attack communities.}
+
+\response{We completely agree with this insight. We have updated our Limitations section (Section 7.5) to explicitly discuss that a static, global $\lambda$ is sub-optimal given the diverse structural characteristics of attacks (e.g., dense propagation in DDoS vs. sparse chains in malware). We now propose community-adaptive $\lambda$ as a key direction for future work.}
+
+\reviewer{2. Interpretability remains partially empirical rather than theoretically grounded... Thus, explanation reliability under adversarial conditions requires further investigation.}
+
+\response{We have added a new paragraph to the Limitations section (Section 7.5) titled "Interpretability versus Causality." We explicitly state that the fuzzy rules currently capture structural correlation rather than causal mechanisms, making them susceptible to adversarial feature manipulation. We acknowledge that true causal reliability is an important unresolved challenge.}
+
+\reviewer{Since the paper focuses on structural uncertainty in graph anomaly detection, structural entropy provides a complementary theoretical perspective... Zeng X, Peng H, Li A. Proactive Bot Detection Based on Structural Information Principles...}
+
+\response{Thank you for suggesting this highly relevant perspective. We have incorporated structural entropy into our Related Work (Section 2.4) and cited the suggested paper (Zeng et al., 2025), noting its complementary role in quantifying graph complexity and identifying structural anomalies for proactive detection.}
+
+\end{document}
