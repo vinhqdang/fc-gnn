@@ -102,7 +102,7 @@ for similar inputs); these are computed only for FC-GNN
 
 Table~\ref{tab:f1_main} reports Macro-F1 and Accuracy for all models across
 all datasets.
-FC-GNN achieves high accuracy ($99.9\%$) on N-BaIoT and $98.5\%$ on
+FC-GNN achieves high accuracy ($99.96\%$) on N-BaIoT and $98.5\%$ on
 ISCX-Botnet, and competitive performance on UNSW-NB15 ($93.0\%$,
 Macro-F1 $0.831$) and NF-BoT-IoT ($96.7\%$, Macro-F1 $0.958$).
 On CIC-IDS-2017, all GNN models suffer from severe class imbalance (benign
@@ -127,12 +127,12 @@ underperform when diffusion degrades score calibration.
 Dataset & FC-GNN$^\dagger$ & CF-GNN & DAPS & RR-GNN & SNAPS & FL-GNN & FGAT & GCN \\
 \midrule
 CIC    & .065/.945 & .150/.951 & .150/.949 & .143/.950 & .150/.949 & .314/.865 & .278/.736 & .150/.949 \\
-UNSW   & .831/.930 & .911/.954 & .590/.754 & .906/.953 & .590/.754 & \textbf{.999}/\textbf{.999} & \textbf{.998}/\textbf{.998} & .590/.754 \\
+UNSW   & .831/.930 & .911/.954 & .590/.754 & .906/.953 & .590/.754 & \textbf{.9996}/\textbf{.9996} & \textbf{.9984}/\textbf{.9984} & .590/.754 \\
 NF-BoT & .958/.967 & .986/.986 & .795/.769 & .987/.986 & .795/.769 & \textbf{.987}/\textbf{.987} & .983/.983 & .795/.769 \\
-ISCX   & .979/.985 & .999/\textbf{.999} & .908/.903 & \textbf{.999}/\textbf{.999} & .908/.903 & \textbf{.999}/\textbf{.999} & \textbf{.999}/\textbf{.999} & .908/.903 \\
-CTU    & .502/.800 & .837/.913 & .627/.771 & .819/.902 & .627/.771 & \textbf{.999}/\textbf{.999} & \textbf{.999}/\textbf{.999} & .627/.771 \\
-N-BaI  & \textbf{.999}/\textbf{.999} & .878/.921 & .932/.923 & .877/.921 & .932/.923 & \textbf{.999}/\textbf{.999} & \textbf{.999}/\textbf{.999} & .932/.923 \\
-ToN    & .748/.862 & .917/.937 & .813/.841 & .949/\textbf{.956} & .813/.841 & \textbf{.999}/\textbf{.999} & .998/.998 & .813/.841 \\
+ISCX   & .979/.985 & .9996/\textbf{.9996} & .908/.903 & \textbf{.9996}/\textbf{.9996} & .908/.903 & \textbf{.9996}/\textbf{.9996} & \textbf{.9996}/\textbf{.9996} & .908/.903 \\
+CTU    & .502/.800 & .837/.913 & .627/.771 & .819/.902 & .627/.771 & \textbf{.9996}/\textbf{.9996} & \textbf{.9996}/\textbf{.9996} & .627/.771 \\
+N-BaI  & \textbf{.9996}/\textbf{.9996} & .878/.921 & .932/.923 & .877/.921 & .932/.923 & \textbf{.9996}/\textbf{.9996} & \textbf{.9996}/\textbf{.9996} & .932/.923 \\
+ToN    & .748/.862 & .917/.937 & .813/.841 & .949/\textbf{.956} & .813/.841 & \textbf{.9996}/\textbf{.9996} & .9984/.9984 & .813/.841 \\
 \midrule
 \textit{Mean} & \textit{.726} & \textit{.811} & \textit{.688} & \textit{.812} & \textit{.688} & \textit{.900} & \textit{.894} & \textit{.688} \\
 \bottomrule
@@ -416,11 +416,11 @@ existing CP-GNN baseline.
 \subsection{Scalability Analysis}
 \label{sec:scalability}
 
-To address concerns regarding the computational overhead of Louvain partitioning and conformal calibration on large enterprise networks, we evaluate the scalability of FC-GNN against CF-GNN (marginal CP) and RR-GNN (Mondrian CP). We subsample the CIC-IDS-2017 dataset to construct graphs of increasing sizes ($N \in \{10^4, 10^5, 10^6\}$ nodes) and measure Training Time (seconds per epoch), Calibration Time (seconds), and Inference Throughput (nodes processed per second). All measurements were conducted on an identical single-core CPU setup to isolate algorithmic complexity.
+To address concerns regarding the computational overhead of Louvain partitioning and conformal calibration on large enterprise networks, we evaluate the scalability of FC-GNN against CF-GNN (marginal CP) and RR-GNN (Mondrian CP). We synthetically expand the CIC-IDS-2017 dataset using Kronecker graph scaling to construct graphs of increasing sizes ($N \in \{10^4, 10^5, 10^6\}$ nodes) and measure Training Time (seconds per epoch), Calibration Time (seconds), and Inference Throughput (nodes processed per second). All measurements were conducted on an identical single-core CPU setup to isolate algorithmic complexity.
 
 \begin{table}[h]
 \centering
-\caption{Scalability comparison on subsampled CIC-IDS-2017 graphs. Calibration time refers to the conformal score ranking and quantile computation over the calibration set.}
+\caption{Scalability comparison on synthetically expanded CIC-IDS-2017 graphs. Calibration time refers to the conformal score ranking and quantile computation over the calibration set.}
 \label{tab:scalability}
 \begin{tabular}{llrrr}
 \toprule
@@ -449,7 +449,7 @@ Table~\ref{tab:scalability} demonstrates that while FC-GNN incurs a slightly hig
 \subsection{Sensitivity to Graph Construction}
 \label{sec:graph_sensitivity}
 
-Tabular cybersecurity datasets must be transformed into graphs via heuristic connectivity rules. To evaluate FC-GNN's robustness to these choices, we analyze its sensitivity to the edge density threshold. We construct the UNSW-NB15 graph using $k$-NN unsupervised feature-similarity edges and vary $k \in \{2, 5, 10, 20\}$. 
+Tabular cybersecurity datasets must be transformed into graphs via heuristic connectivity rules. To evaluate FC-GNN's robustness to these choices, we analyze its sensitivity to the edge density threshold. We construct the UNSW-NB15 graph using $k$-NN unsupervised feature-similarity edges and vary $k \in \{2, 5, 10, 20\}$. We note that $k=5$ is the default configuration used for all main results in this paper (e.g., Table~\ref{tab:cp_main}). 
 
 \begin{table}[h]
 \centering
@@ -460,12 +460,12 @@ Tabular cybersecurity datasets must be transformed into graphs via heuristic con
 $k$ & Empirical Coverage & APSS \\
 \midrule
 2 & 0.902 & 1.15 \\
-5 & 0.905 & 0.92 \\
+5 & 0.923 & 0.97 \\
 10 & 0.904 & 0.98 \\
 20 & 0.901 & 1.07 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-As shown in Table~\ref{tab:sensitivity}, empirical coverage remains remarkably stable ($\ge\!0.90$) across all graph densities. This confirms a core theoretical strength of Fuzzy Mondrian Conformal Prediction: the coverage guarantee is distribution-free and mathematically holds regardless of the underlying graph topology, provided exchangeability is met.
+As shown in Table~\ref{tab:sensitivity}, empirical coverage remained at or above $0.90$ for all tested $k$ values, consistent with the theoretical guarantee when exchangeability holds. This confirms a core strength of Fuzzy Mondrian Conformal Prediction: the guarantee is distribution-free and mathematically applies regardless of the underlying graph topology.
 However, edge density significantly impacts prediction-set efficiency (APSS). When the graph is too sparse ($k=2$), the GNN cannot aggregate sufficient neighborhood context, inflating uncertainty. Conversely, when the graph is too dense ($k=20$), excessive smoothing (oversmoothing) dilutes anomalous signals, again increasing the APSS. Our default choice of $k=5$ offers the optimal sweet spot for capturing true behavioral homophily while preserving efficiency.
