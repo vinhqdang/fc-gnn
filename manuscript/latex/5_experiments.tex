@@ -120,21 +120,21 @@ underperform when diffusion degrades score calibration.
          Best per column in \textbf{bold}. FC-GNN column marked with $\dagger$.
          ``---'' = model does not apply CP and hence coverage metrics are absent.}
 \label{tab:f1_main}
-\setlength{\tabcolsep}{4pt}
-\small
+\setlength{\tabcolsep}{0.5pt}
+\scriptsize
 \begin{tabular}{lcccccccc}
 \toprule
 Dataset & FC-GNN$^\dagger$ & CF-GNN & DAPS & RR-GNN & SNAPS & FL-GNN & FGAT & GCN \\
 \midrule
-CIC-IDS-2017  & 0.065/0.945 & 0.150/0.951 & 0.150/0.949 & 0.143/0.950 & 0.150/0.949 & 0.314/0.865 & 0.278/0.736 & 0.150/0.949 \\
-UNSW-NB15     & 0.831/0.930 & 0.911/0.954 & 0.590/0.754 & 0.906/0.953 & 0.590/0.754 & \textbf{0.999}/\textbf{0.999} & \textbf{0.998}/\textbf{0.998} & 0.590/0.754 \\
-NF-BoT-IoT    & 0.958/0.967 & 0.986/0.986 & 0.795/0.769 & 0.987/0.986 & 0.795/0.769 & \textbf{0.987}/\textbf{0.987} & 0.983/0.983 & 0.795/0.769 \\
-ISCX-Botnet   & 0.979/0.985 & 0.999/\textbf{0.999} & 0.908/0.903 & \textbf{0.999}/\textbf{0.999} & 0.908/0.903 & \textbf{0.999}/\textbf{0.999} & \textbf{0.999}/\textbf{0.999} & 0.908/0.903 \\
-CTU-13        & 0.502/0.800 & 0.837/0.913 & 0.627/0.771 & 0.819/0.902 & 0.627/0.771 & \textbf{0.999}/\textbf{0.999} & \textbf{0.999}/\textbf{0.999} & 0.627/0.771 \\
-N-BaIoT       & \textbf{0.999}/\textbf{0.999} & 0.878/0.921 & 0.932/0.923 & 0.877/0.921 & 0.932/0.923 & \textbf{0.999}/\textbf{0.999} & \textbf{0.999}/\textbf{0.999} & 0.932/0.923 \\
-ToN-IoT       & 0.748/0.862 & 0.917/0.937 & 0.813/0.841 & 0.949/\textbf{0.956} & 0.813/0.841 & \textbf{0.999}/\textbf{0.999} & 0.998/0.998 & 0.813/0.841 \\
+CIC    & .065/.945 & .150/.951 & .150/.949 & .143/.950 & .150/.949 & .314/.865 & .278/.736 & .150/.949 \\
+UNSW   & .831/.930 & .911/.954 & .590/.754 & .906/.953 & .590/.754 & \textbf{.999}/\textbf{.999} & \textbf{.998}/\textbf{.998} & .590/.754 \\
+NF-BoT & .958/.967 & .986/.986 & .795/.769 & .987/.986 & .795/.769 & \textbf{.987}/\textbf{.987} & .983/.983 & .795/.769 \\
+ISCX   & .979/.985 & .999/\textbf{.999} & .908/.903 & \textbf{.999}/\textbf{.999} & .908/.903 & \textbf{.999}/\textbf{.999} & \textbf{.999}/\textbf{.999} & .908/.903 \\
+CTU    & .502/.800 & .837/.913 & .627/.771 & .819/.902 & .627/.771 & \textbf{.999}/\textbf{.999} & \textbf{.999}/\textbf{.999} & .627/.771 \\
+N-BaI  & \textbf{.999}/\textbf{.999} & .878/.921 & .932/.923 & .877/.921 & .932/.923 & \textbf{.999}/\textbf{.999} & \textbf{.999}/\textbf{.999} & .932/.923 \\
+ToN    & .748/.862 & .917/.937 & .813/.841 & .949/\textbf{.956} & .813/.841 & \textbf{.999}/\textbf{.999} & .998/.998 & .813/.841 \\
 \midrule
-\textit{Mean} & \textit{0.726} & \textit{0.811} & \textit{0.688} & \textit{0.812} & \textit{0.688} & \textit{0.900} & \textit{0.894} & \textit{0.688} \\
+\textit{Mean} & \textit{.726} & \textit{.811} & \textit{.688} & \textit{.812} & \textit{.688} & \textit{.900} & \textit{.894} & \textit{.688} \\
 \bottomrule
 \end{tabular}
 \end{table*}
