@@ -40,8 +40,8 @@ Each dataset is converted to a graph as follows:
   \item \textbf{Nodes}: unique IP addresses or device identifiers. \rev{This definition aligns with the natural entities in a network, allowing the model to track the behavioral history and security posture of individual devices over time.}
   \item \textbf{Edges}: directional flow between source–destination pairs,
         with hub nodes (servers) accumulating high degree,
-        intra-class homophily edges for correlated attack traffic,
-        and random background edges for realism. \rev{This topology captures the inherent communication patterns of enterprise networks and botnets, where compromised devices often communicate with a central command-and-control server (hub) and exhibit correlated lateral movement (homophily).}
+        unsupervised feature-similarity homophily edges for correlated attack traffic,
+        and random background edges for realism. \rev{This topology captures the inherent communication patterns of enterprise networks and botnets, where compromised devices often communicate with a central command-and-control server (hub) and exhibit correlated lateral movement (feature homophily).}
   \item \textbf{Node features}: aggregated flow statistics per IP
         (mean/std of packet sizes, inter-arrival times, byte ratios,
         active/idle times; $F \in \{12, 35, 40, 42, 115\}$ depending on
@@ -54,7 +54,7 @@ Each dataset is converted to a graph as follows:
 \subsection{Baselines}
 \label{sec:baselines}
 
-We compare against nine baselines spanning three paradigm families
+We compare against eight baselines spanning three paradigm families
 (Table~\ref{tab:gaps}):
 
 \begin{itemize}
@@ -166,7 +166,7 @@ APSS respectively.
 Dataset & Cov. & APSS & Cov. & APSS & Cov. & APSS &
          Cov. & APSS & Cov. & APSS \\
 \midrule
-CIC    & .906 & 1.50 & .916 & 0.92 & $.919^{\times}$\tablefootnote{Above target on this dataset; marginal violation on others.} & 0.95 & .909 & 1.20 & .920 & 0.95 \\
+CIC    & .906 & 1.50 & .916 & 0.92 & .919 & 0.95 & .909 & 1.20 & .920 & 0.95 \\
 UNSW   & .923 & 0.97 & .903 & 0.90 & \bfseries$.771^{\times}$ & 1.24 & .926 & 1.26 & $.836^{\times}$ & 1.34 \\
 NF-BoT & .893 & 0.91 & .911 & 0.91 & $.778^{\times}$ & 1.12 & .916 & 0.92 & $.859^{\times}$ & 1.21 \\
 ISCX   & .899 & 0.91 & $.888^{\times}$ & 0.89 & $.748^{\times}$ & 0.81 & .892 & 0.89 & $.868^{\times}$ & 0.91 \\
@@ -184,9 +184,7 @@ DAPS violates the $90\%$ coverage target on 6 of 7 datasets
 (average coverage $0.807$), and SNAPS on $5/7$ datasets (average $0.871$).
 Both marginal CP baselines (CF-GNN, SNAPS, DAPS) inherit this fragility
 because score diffusion distorts the exchangeability of nonconformity scores.
-FC-GNN and RR-GNN maintain valid coverage on all datasets (mean $0.903$ and
-$0.909$ respectively), confirming that \emph{only Mondrian CP provides
-reliable conditional coverage}.
+FC-GNN and RR-GNN achieve much stronger empirical coverage (reaching the $\ge\!0.90$ target on $3/7$ and $6/7$ datasets respectively, with means of $0.903$ and $0.909$) compared to marginal CP baselines, confirming that \emph{Mondrian CP provides more robust conditional coverage}.
 
 \paragraph{APSS efficiency.}
 Figure~\ref{fig:apss} shows that on CTU-13 (13 classes, complex topology),
@@ -295,9 +293,9 @@ prediction sets at comparable coverage validity.
 We apply the Wilcoxon signed-rank test (non-parametric, paired across datasets)
 to compare FC-GNN against each baseline.
 FC-GNN significantly outperforms DAPS and GCN on empirical coverage
-($p = 0.031$ and $p = 0.047$, respectively), and significantly outperforms
-FL-GNN and FGAT on Macro-F1 ($p = 0.031$ in both cases, in the opposite
-direction — FL-GNN/FGAT win F1 but provide no coverage guarantees).
+($p = 0.031$ and $p = 0.047$, respectively). However, FC-GNN is significantly
+worse on Macro-F1 compared to FL-GNN and FGAT ($p = 0.031$ in both cases —
+FL-GNN/FGAT win F1 but provide no coverage guarantees).
 Against CF-GNN, RR-GNN, and GraphSAGE, differences are not statistically
 significant ($p > 0.10$), reflecting that these models are strong baselines
 on specific datasets but fail to provide conditional coverage.
