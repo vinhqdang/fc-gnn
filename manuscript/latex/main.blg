@@ -9,42 +9,42 @@ sn-basic.bst [2024/07/19 v1.1 bibliography style]
 Reallocating 'wiz_functions' (item size: 4) to 6000 items.
 You've used 53 entries,
             3567 wiz_defined-function locations,
-            988 strings with 14833 characters,
-and the built_in function-call counts, 38889 in all, are:
-= -- 3541
-> -- 1576
-< -- 34
-+ -- 617
-- -- 463
-* -- 3149
-:= -- 5758
-add.period$ -- 60
+            1032 strings with 16811 characters,
+and the built_in function-call counts, 39990 in all, are:
+= -- 3675
+> -- 1652
+< -- 32
++ -- 646
+- -- 487
+* -- 3329
+:= -- 5905
+add.period$ -- 73
 call.type$ -- 53
-change.case$ -- 466
-chr.to.int$ -- 50
+change.case$ -- 481
+chr.to.int$ -- 49
 cite$ -- 53
-duplicate$ -- 2973
-empty$ -- 3151
-format.name$ -- 630
-if$ -- 8119
-int.to.chr$ -- 4
+duplicate$ -- 3033
+empty$ -- 3206
+format.name$ -- 650
+if$ -- 8364
+int.to.chr$ -- 5
 int.to.str$ -- 1
-missing$ -- 349
+missing$ -- 357
 newline$ -- 168
 num.names$ -- 212
-pop$ -- 1150
+pop$ -- 1092
 preamble$ -- 1
-purify$ -- 368
+purify$ -- 378
 quote$ -- 0
-skip$ -- 1136
+skip$ -- 1111
 stack$ -- 0
-substring$ -- 2707
-swap$ -- 807
+substring$ -- 2734
+swap$ -- 905
 text.length$ -- 11
 text.prefix$ -- 0
 top$ -- 1
 type$ -- 474
 warning$ -- 0
-while$ -- 226
+while$ -- 228
 width$ -- 0
-write$ -- 581
+write$ -- 624
