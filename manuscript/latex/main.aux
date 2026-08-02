@@ -154,12 +154,12 @@
 \@writefile{toc}{\contentsline {paragraph}{APSS efficiency.}{13}{section*.19}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Coverage–efficiency trade-off.}{13}{section*.20}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Conditional coverage gap.}{13}{section*.21}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Significance Tests}{13}{subsection.4.5}\protected@file@percent }
+\newlabel{sec:significance}{{4.5}{13}{Significance Tests}{subsection.4.5}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Conditional coverage gap (worst-case per-community deviation from the $0.90$ target) for the two Mondrian CP models. Lower is better.}}{14}{table.caption.23}\protected@file@percent }
 \newlabel{tab:cp_gap}{{5}{14}{Conditional coverage gap (worst-case per-community deviation from the $0.90$ target) for the two Mondrian CP models. Lower is better}{table.caption.23}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Empirical coverage of all CP-capable models across datasets. Dashed red line = target $1-\alpha = 0.90$. DAPS and SNAPS violate coverage on most datasets.}}{14}{figure.caption.24}\protected@file@percent }
 \newlabel{fig:coverage}{{2}{14}{Empirical coverage of all CP-capable models across datasets. Dashed red line = target $1-\alpha = 0.90$. DAPS and SNAPS violate coverage on most datasets}{figure.caption.24}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.5}Significance Tests}{14}{subsection.4.5}\protected@file@percent }
-\newlabel{sec:significance}{{4.5}{14}{Significance Tests}{subsection.4.5}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Average Prediction Set Size (APSS, lower is more efficient). FC-GNN is significantly more efficient than RR-GNN on CTU-13 ($1.87$ vs $4.79$, annotated).}}{15}{figure.caption.25}\protected@file@percent }
 \newlabel{fig:apss}{{3}{15}{Average Prediction Set Size (APSS, lower is more efficient). FC-GNN is significantly more efficient than RR-GNN on CTU-13 ($1.87$ vs $4.79$, annotated)}{figure.caption.25}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Coverage--efficiency frontier on three representative datasets. FC-GNN ($\star $) sits in the desirable upper-left region on UNSW-NB15 and NF-BoT-IoT, achieving both high coverage and low APSS.}}{15}{figure.caption.26}\protected@file@percent }
@@ -178,30 +178,32 @@
 \@writefile{toc}{\contentsline {paragraph}{Rule Fidelity.}{17}{section*.31}\protected@file@percent }
 \@writefile{toc}{\contentsline {paragraph}{Explanation Stability.}{17}{section*.32}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.2}MITRE ATT\&CK Rule Mapping}{17}{subsubsection.4.7.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.3}Uncertain-Prediction Case Study}{17}{subsubsection.4.7.3}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces FC-GNN interpretability metrics across seven cybersecurity datasets. Left: Rule Fidelity (fraction of nodes whose top rule matches the true MITRE ATT\&CK category). Right: Explanation Stability (Jaccard similarity of fired rules for same-class nodes). Red dashed lines = dataset means.}}{18}{figure.caption.33}\protected@file@percent }
 \newlabel{fig:interpretability}{{7}{18}{FC-GNN interpretability metrics across seven cybersecurity datasets. Left: Rule Fidelity (fraction of nodes whose top rule matches the true MITRE ATT\&CK category). Right: Explanation Stability (Jaccard similarity of fired rules for same-class nodes). Red dashed lines = dataset means}{figure.caption.33}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces Top-5 fired fuzzy rules on UNSW-NB15 with MITRE ATT\&CK mapping. Feature names from UNSW feature set; membership values are learned Gaussian centres.}}{18}{table.caption.35}\protected@file@percent }
 \newlabel{tab:mitre}{{7}{18}{Top-5 fired fuzzy rules on UNSW-NB15 with MITRE ATT\&CK mapping. Feature names from UNSW feature set; membership values are learned Gaussian centres}{table.caption.35}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {4.7.3}Uncertain-Prediction Case Study}{18}{subsubsection.4.7.3}\protected@file@percent }
-\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Scalability Analysis}{19}{subsection.4.8}\protected@file@percent }
-\newlabel{sec:scalability}{{4.8}{19}{Scalability Analysis}{subsection.4.8}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.8}Scalability Analysis}{18}{subsection.4.8}\protected@file@percent }
+\newlabel{sec:scalability}{{4.8}{18}{Scalability Analysis}{subsection.4.8}{}}
 \@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces Scalability comparison on synthetically expanded CIC-IDS-2017 graphs. Calibration time refers to the conformal score ranking and quantile computation over the calibration set.}}{19}{table.caption.37}\protected@file@percent }
 \newlabel{tab:scalability}{{8}{19}{Scalability comparison on synthetically expanded CIC-IDS-2017 graphs. Calibration time refers to the conformal score ranking and quantile computation over the calibration set}{table.caption.37}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {4.9}Sensitivity to Graph Construction}{19}{subsection.4.9}\protected@file@percent }
 \newlabel{sec:graph_sensitivity}{{4.9}{19}{Sensitivity to Graph Construction}{subsection.4.9}{}}
 \citation{zeng20}
+\citation{cp_drift}
+\citation{ncpnet25}
+\citation{cpp_coad}
 \@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Sensitivity of FC-GNN empirical coverage and APSS on UNSW-NB15 across varying $k$-NN feature-similarity edge densities. Target coverage is $0.90$.}}{20}{table.caption.39}\protected@file@percent }
 \newlabel{tab:sensitivity}{{9}{20}{Sensitivity of FC-GNN empirical coverage and APSS on UNSW-NB15 across varying $k$-NN feature-similarity edge densities. Target coverage is $0.90$}{table.caption.39}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Discussion}{20}{section.5}\protected@file@percent }
 \newlabel{sec:discussion}{{5}{20}{Discussion}{section.5}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Coverage Trade-offs and the Value of Conditional Guarantees}{20}{subsection.5.1}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Scalability}{20}{subsection.5.2}\protected@file@percent }
-\citation{cp_drift}
-\citation{ncpnet25}
-\citation{cpp_coad}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Exchangeability and Concept Drift}{21}{subsection.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Exchangeability and Concept Drift}{20}{subsection.5.3}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Rule Complexity and Pruning}{21}{subsection.5.4}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Limitations}{21}{subsection.5.5}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{21}{section.6}\protected@file@percent }
+\newlabel{sec:conclusion}{{6}{21}{Conclusion}{section.6}{}}
 \citation{akgul25,dang24federated}
 \citation{ncpnet25}
 \bibdata{ref}
@@ -209,11 +211,9 @@
 \bibcite{angelopoulos21}{{2}{2021}{{Angelopoulos and Bates}}{{}}}
 \bibcite{crcs_gad}{{3}{2025}{{Bai et~al.}}{{Bai, Zheng, and Zeng}}}
 \bibcite{barber23}{{4}{2023}{{Barber et~al.}}{{Barber, Cand{\`e}s, Tibshirani, and Wager}}}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusion}{22}{section.6}\protected@file@percent }
-\newlabel{sec:conclusion}{{6}{22}{Conclusion}{section.6}{}}
-\@writefile{toc}{\contentsline {paragraph}{Future work.}{22}{section*.40}\protected@file@percent }
 \bibcite{gnn_ids_survey}{{5}{2023}{{Bilot et~al.}}{{Bilot, El~Madhoun, Al~Agha, and Zouaoui}}}
 \bibcite{blondel08}{{6}{2008}{{Blondel et~al.}}{{Blondel, Guillaume, Lambiotte, and Lefebvre}}}
+\@writefile{toc}{\contentsline {paragraph}{Future work.}{22}{section*.40}\protected@file@percent }
 \bibcite{cicids2017}{{7}{2017}{{Canadian Institute for Cybersecurity}}{{}}}
 \bibcite{clarkson23}{{8}{2023}{{Clarkson}}{{}}}
 \bibcite{ctu13}{{9}{2011}{{Czech Technical University}}{{}}}
@@ -227,38 +227,39 @@
 \bibcite{flgnn}{{17}{2024}{{Du et~al.}}{{Du, Zhou, Liu, and She}}}
 \bibcite{gfs_gan}{{18}{2015}{{Elhag et~al.}}{{Elhag, Fern{\'a}ndez, Bawakid, Alshomrani, and Herrera}}}
 \bibcite{xgnid}{{19}{2025}{{Farrukh et~al.}}{{Farrukh, Wali, Khan, and Bastian}}}
-\bibcite{cp_drift}{{20}{2025}{{Garc{\'\i }a and DeCastro-Garc{\'\i }a}}{{}}}
-\bibcite{graphids}{{21}{2025}{{Guerra et~al.}}{{Guerra, Chapuis, Duc, Mozharovskyi, and Nguyen}}}
-\bibcite{hamilton17}{{22}{2017}{{Hamilton et~al.}}{{Hamilton, Ying, and Leskovec}}}
-\bibcite{cfgnn}{{23}{2023}{{Huang et~al.}}{{Huang, Jin, Cand{\`e}s, and Leskovec}}}
-\bibcite{fuzzy_sdn}{{24}{2025}{{Johnpeter and Karuppanan}}{{}}}
-\bibcite{fgenconv}{{25}{2026}{{Khaled et~al.}}{{Khaled, De~Marinis, Louati, Ferras, Genga, and Kaymak}}}
-\bibcite{kipf17}{{26}{2017}{{Kipf and Welling}}{{}}}
-\bibcite{fuzzy_cp_evalue}{{27}{2026}{{Koning and van Meer}}{{}}}
-\bibcite{nfbotiot}{{28}{2020}{{Koroniotis et~al.}}{{}}}
-\bibcite{nbaiot}{{29}{2018}{{Meidan et~al.}}{{}}}
-\bibcite{damba26}{{30}{2026}{{Qaiser and Chandrasekaran}}{{}}}
-\bibcite{fuzzy_iot}{{31}{2025}{{Qiu et~al.}}{{Qiu, Shi, and Fan}}}
-\bibcite{firegnn}{{32}{2025}{{Sengupta and Rekik}}{{}}}
-\bibcite{snaps}{{33}{2024}{{Song et~al.}}{{Song, Huang, Jiang, Zhang, Li, and Wang}}}
-\bibcite{sugeno74}{{34}{1974}{{Sugeno}}{{}}}
-\bibcite{gnnids}{{35}{2024}{{Sun et~al.}}{{Sun, Teixeira, and Toor}}}
-\bibcite{fgnn_survey}{{36}{2025}{{Tran et~al.}}{{Tran, Tong, Nguyen, and Nguyen}}}
-\bibcite{iscx14}{{37}{2014}{{University of New Brunswick}}{{}}}
-\bibcite{toniot}{{38}{2020}{{UNSW}}{{}}}
-\bibcite{unswNB15}{{39}{2015}{{UNSW Canberra}}{{}}}
-\bibcite{vovk05}{{40}{2005}{{Vovk et~al.}}{{Vovk, Gammerman, and Shafer}}}
-\bibcite{ncpnet25}{{41}{2025{a}}{{Wang et~al.}}{{Wang, Kang, Yan, Kulkarni, and Zhou}}}
-\bibcite{confrank25}{{42}{2025{b}}{{Wang et~al.}}{{Wang, Zhou, and Luo}}}
-\bibcite{mfgat}{{43}{2025{a}}{{Xing et~al.}}{{Xing, Luo, Cheng, Xue, and Xing}}}
-\bibcite{fgat}{{44}{2025{b}}{{Xing et~al.}}{{Xing, Xing, Xue, and Luo}}}
-\bibcite{gzoo2024}{{45}{2025{a}}{{Yu et~al.}}{{Yu, Liang, Hu, Tu, Ma, Zhou, and Liu}}}
-\bibcite{dshield2023}{{46}{2025{b}}{{Yu et~al.}}{{Yu, Ma, Wan, Wang, Xiang, Shen, and Liu}}}
-\bibcite{cp_cps26}{{47}{2026}{{Yuan et~al.}}{{Yuan, Li, Wang, and Zhang}}}
-\bibcite{botnet_cp}{{48}{2024}{{Yumlembam et~al.}}{{Yumlembam, Issac, Jacob, and Yang}}}
-\bibcite{daps}{{49}{2023}{{Zargarbashi et~al.}}{{Zargarbashi, Antonelli, and Bojchevski}}}
-\bibcite{zeng20}{{50}{2020}{{Zeng et~al.}}{{Zeng, Zhou, Srivastava, Kannan, and Prasanna}}}
-\bibcite{zeng2025structural}{{51}{2026}{{Zeng et~al.}}{{Zeng, Peng, and Li}}}
-\bibcite{rrgnn}{{52}{2025}{{Zhang et~al.}}{{Zhang, Bao, Zhou, Colombo, Cheng, and Luo}}}
-\bibcite{cp_survey}{{53}{2026}{{Zhou et~al.}}{{Zhou, Chen, Gui, and Cheng}}}
+\bibcite{cpp_coad}{{20}{2025}{{Farzaneh and Simeone}}{{}}}
+\bibcite{cp_drift}{{21}{2025}{{Garc{\'\i }a and DeCastro-Garc{\'\i }a}}{{}}}
+\bibcite{graphids}{{22}{2025}{{Guerra et~al.}}{{Guerra, Chapuis, Duc, Mozharovskyi, and Nguyen}}}
+\bibcite{hamilton17}{{23}{2017}{{Hamilton et~al.}}{{Hamilton, Ying, and Leskovec}}}
+\bibcite{cfgnn}{{24}{2023}{{Huang et~al.}}{{Huang, Jin, Cand{\`e}s, and Leskovec}}}
+\bibcite{fuzzy_sdn}{{25}{2025}{{Johnpeter and Karuppanan}}{{}}}
+\bibcite{fgenconv}{{26}{2026}{{Khaled et~al.}}{{Khaled, De~Marinis, Louati, Ferras, Genga, and Kaymak}}}
+\bibcite{kipf17}{{27}{2017}{{Kipf and Welling}}{{}}}
+\bibcite{fuzzy_cp_evalue}{{28}{2026}{{Koning and van Meer}}{{}}}
+\bibcite{nfbotiot}{{29}{2020}{{Koroniotis et~al.}}{{}}}
+\bibcite{nbaiot}{{30}{2018}{{Meidan et~al.}}{{}}}
+\bibcite{damba26}{{31}{2026}{{Qaiser and Chandrasekaran}}{{}}}
+\bibcite{fuzzy_iot}{{32}{2025}{{Qiu et~al.}}{{Qiu, Shi, and Fan}}}
+\bibcite{firegnn}{{33}{2025}{{Sengupta and Rekik}}{{}}}
+\bibcite{snaps}{{34}{2024}{{Song et~al.}}{{Song, Huang, Jiang, Zhang, Li, and Wang}}}
+\bibcite{sugeno74}{{35}{1974}{{Sugeno}}{{}}}
+\bibcite{gnnids}{{36}{2024}{{Sun et~al.}}{{Sun, Teixeira, and Toor}}}
+\bibcite{fgnn_survey}{{37}{2025}{{Tran et~al.}}{{Tran, Tong, Nguyen, and Nguyen}}}
+\bibcite{iscx14}{{38}{2014}{{University of New Brunswick}}{{}}}
+\bibcite{toniot}{{39}{2020}{{UNSW}}{{}}}
+\bibcite{unswNB15}{{40}{2015}{{UNSW Canberra}}{{}}}
+\bibcite{vovk05}{{41}{2005}{{Vovk et~al.}}{{Vovk, Gammerman, and Shafer}}}
+\bibcite{ncpnet25}{{42}{2025{a}}{{Wang et~al.}}{{Wang, Kang, Yan, Kulkarni, and Zhou}}}
+\bibcite{confrank25}{{43}{2025{b}}{{Wang et~al.}}{{Wang, Zhou, and Luo}}}
+\bibcite{mfgat}{{44}{2025{a}}{{Xing et~al.}}{{Xing, Luo, Cheng, Xue, and Xing}}}
+\bibcite{fgat}{{45}{2025{b}}{{Xing et~al.}}{{Xing, Xing, Xue, and Luo}}}
+\bibcite{gzoo2024}{{46}{2025{a}}{{Yu et~al.}}{{Yu, Liang, Hu, Tu, Ma, Zhou, and Liu}}}
+\bibcite{dshield2023}{{47}{2025{b}}{{Yu et~al.}}{{Yu, Ma, Wan, Wang, Xiang, Shen, and Liu}}}
+\bibcite{cp_cps26}{{48}{2026}{{Yuan et~al.}}{{Yuan, Li, Wang, and Zhang}}}
+\bibcite{botnet_cp}{{49}{2024}{{Yumlembam et~al.}}{{Yumlembam, Issac, Jacob, and Yang}}}
+\bibcite{daps}{{50}{2023}{{Zargarbashi et~al.}}{{Zargarbashi, Antonelli, and Bojchevski}}}
+\bibcite{zeng20}{{51}{2020}{{Zeng et~al.}}{{Zeng, Zhou, Srivastava, Kannan, and Prasanna}}}
+\bibcite{zeng2025structural}{{52}{2026}{{Zeng et~al.}}{{Zeng, Peng, and Li}}}
+\bibcite{rrgnn}{{53}{2025}{{Zhang et~al.}}{{Zhang, Bao, Zhou, Colombo, Cheng, and Luo}}}
+\bibcite{cp_survey}{{54}{2026}{{Zhou et~al.}}{{Zhou, Chen, Gui, and Cheng}}}
 \gdef \@abspage@last{27}

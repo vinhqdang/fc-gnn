@@ -1,4 +1,4 @@
-\begin{thebibliography}{53}
+\begin{thebibliography}{54}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{{#1}}
 \providecommand{\urlprefix}{URL }
@@ -110,6 +110,11 @@ Farrukh YA, Wali S, Khan I, et~al (2025) {XG-NID}: Dual-modality network
   intrusion detection using a heterogeneous graph neural network and large
   language model. Expert Systems with Applications 287:128089.
   \doi{https://doi.org/10.1016/j.eswa.2025.128089}
+
+\bibitem[{Farzaneh and Simeone(2025)}]{cpp_coad}
+Farzaneh A, Simeone O (2025) Context-aware online conformal anomaly detection.
+  arXiv preprint arXiv:250501783
+  \doi{https://doi.org/10.48550/arXiv.2505.01783}
 
 \bibitem[{Garc{\'\i}a and DeCastro-Garc{\'\i}a(2025)}]{cp_drift}
 Garc{\'\i}a DE, DeCastro-Garc{\'\i}a N (2025) Conformal prediction for
