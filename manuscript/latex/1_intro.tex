@@ -42,6 +42,32 @@ Softmax confidence is not a substitute: modern networks are systematically
 overconfident, and a reported probability of $0.99$ carries no guarantee about
 the frequency with which such predictions are correct.
 
+Nor do the standard remedies close the gap. Post-hoc calibration methods such as
+temperature scaling adjust confidence to match average accuracy on a held-out
+set, but supply no finite-sample guarantee for an individual prediction and are
+themselves fitted under the assumption that deployment resembles validation.
+Bayesian neural networks and deep ensembles produce a predictive distribution
+whose spread is often taken as an uncertainty estimate, yet the resulting
+credible intervals are valid only if the prior and likelihood are correctly
+specified — an assumption no one is in a position to defend for adversarial
+network traffic — and ensembles multiply training and inference cost by the
+number of members. Conformal prediction is attractive precisely because it
+assumes none of this: it wraps an arbitrary, possibly misspecified predictor and
+returns a guarantee that holds in finite samples for any data distribution,
+requiring only exchangeability between calibration and test data. In a domain
+where the data-generating process is partly under an adversary's control, an
+assumption-light guarantee is worth more than a sharper one resting on
+conditions that cannot be checked.
+
+Transferring that guarantee to graphs is not immediate. In transductive node
+classification the prediction for one node depends, through message passing, on
+the features and labels of its neighbours, so calibration and test scores are
+statistically coupled and the i.i.d.\ reasoning that motivates split conformal
+prediction no longer applies directly. Validity must be re-established from a
+permutation-invariance argument rather than assumed \citep{cfgnn}, and any
+modification to the scoring function — score smoothing across edges, for
+instance — risks weakening the very symmetry the argument relies on.
+
 These two weaknesses compound one another. A model that discards the ambiguity
 in its input will express unwarranted confidence in its output, and a model that
 offers no calibrated statement about that confidence gives the analyst no basis
@@ -137,10 +163,27 @@ This paper makes four contributions:
   between marginal and conditional calibration.
 \end{enumerate}
 
-\paragraph{Reproducibility.}
-The full implementation, the evaluation harness, and the scripts that regenerate
-every table and figure in this paper are available at
-\url{https://github.com/vinhqdang/fc-gnn}.
+\subsection{Summary of Findings}
+
+Three results are worth stating in advance, including one that does not favour
+the proposed method.
+First, the distinction between marginal and conditional calibration is
+empirically large, not a technical nicety: methods that smooth conformity scores
+across the graph achieve competitive average set sizes while failing the nominal
+coverage target on most datasets under chronological splits, whereas
+community-conditional calibration holds it.
+Second, evaluation protocol dominates apparent performance. Under the random
+splits customary in the CP-GNN literature, calibration and test points are drawn
+from the same temporal regime by construction, and differences between methods
+largely disappear; the chronological protocol we adopt separates them in time as
+a deployment would, and it is what makes the differences visible.
+Third, FC-GNN does not dominate on point-prediction accuracy, and we do not
+claim that it does. On the most severely imbalanced benchmark its Macro-F1 is
+poor in absolute terms, and its advantage over the strongest Mondrian baseline
+in conditional coverage is real but modest. What it provides that the
+alternatives do not is a conditional guarantee together with a rule-level
+account of the decision, and we regard the accuracy cost as the price of that
+combination rather than as an incidental shortcoming.
 
 \subsection{Paper Structure}
 
