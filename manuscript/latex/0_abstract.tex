@@ -1,5 +1,10 @@
-\begin{abstract}
-Graph Neural Networks (GNNs) have demonstrated strong performance for
+% sn-jnl defines \abstract and \keywords as one-argument COMMANDS
+% (\def\abstract#1{...}), not environments. Written as
+% \begin{abstract}...\end{abstract}, \abstract silently consumed the very
+% next token as its argument -- the leading "G" of "Graph" -- and the rest
+% was typeset as ordinary body text, with no Abstract heading and no
+% keywords anywhere in the document.
+\abstract{Graph Neural Networks (GNNs) have demonstrated strong performance for
 cybersecurity anomaly detection tasks — including network intrusion
 classification, botnet identification, and IoT malware analysis — yet two
 critical limitations remain unresolved simultaneously: the inability to
@@ -30,8 +35,6 @@ reaching target on $3/7$ datasets at $\alpha\!=\!0.10$) while
 outperforming the leading Mondrian CP baseline (RR-GNN) in prediction-set
 efficiency on five datasets, and
 providing human-interpretable IF-THEN rule explanations aligned with
-MITRE ATT\&CK categories (mean explanation stability $0.61$).
-\keywords{Graph neural networks \and Conformal prediction \and
-Fuzzy logic \and Cybersecurity \and Anomaly detection \and
-Uncertainty quantification \and Interpretability}
-\end{abstract}
+MITRE ATT\&CK categories (mean explanation stability $0.61$).}
+
+\keywords{Graph neural networks, Conformal prediction, Fuzzy logic, Cybersecurity, Anomaly detection, Uncertainty quantification, Interpretability}
