@@ -6,6 +6,14 @@ We presented \textbf{FC-GNN}, the first method to simultaneously provide
 anomaly detection, (ii) distribution-free, community-conditional coverage
 guarantees via Fuzzy Mondrian Conformal Prediction, and (iii) human-interpretable
 IF-THEN rule explanations aligned with MITRE ATT\&CK.
+The three components are complementary rather than merely co-present: the fuzzy
+layer produces a graded membership vector that reflects genuine ambiguity in
+network telemetry; the Sugeno integral converts that vector into a nonconformity
+score that respects its ordinal structure without imposing additivity; and the
+Mondrian construction turns the score into a prediction set whose validity is
+conditional on the region of the graph a host inhabits, rather than averaged
+over all traffic.
+
 Experiments on seven cybersecurity benchmarks confirm that FC-GNN provides theoretical
 conditional coverage under the stated exchangeability assumptions (empirical mean
 coverage $0.903$, reaching target on $3/7$ chronological-split datasets), while achieving
@@ -15,18 +23,49 @@ A formal coverage theorem establishes the finite-sample conditional
 coverage slack as $O(|Q_m|^{-1/2})$ under the fuzzy permutation-invariance
 condition.
 
-\paragraph{Future work.}
-Three directions are most promising:
-(1) \emph{Federated FC-GNN} — extending FMCP to the federated GNN setting
-\citep{akgul25,dang24federated} where calibration data is distributed
-across clients without centralisation;
-(2) \emph{Temporal FC-GNN} — incorporating non-exchangeable CP
-\citep{ncpnet25} to provide valid coverage under concept drift without
-retraining from scratch;
-(3) \emph{Per-community Sugeno calibration} — learning community-specific
-$\lambda$ parameters to tighten the coverage gap towards zero in all
-communities simultaneously.
+We draw two conclusions that we regard as more durable than any individual
+number. The first is that the distinction between marginal and conditional
+coverage is operationally decisive in this domain, not a technical refinement: a
+detector can meet a nominal target in aggregate while systematically
+under-covering exactly the rare attack families that generate actionable alerts,
+and only a conditional criterion exposes this. The second is that evaluation
+protocol dominates method choice. Under chronological splits, which separate
+calibration from test data in time as a real deployment would, methods that
+smooth conformity scores across the graph lose calibration even as they improve
+average efficiency — a trade-off invisible under the random splits customary in
+this literature. We would encourage chronological evaluation as the default for
+security applications of conformal prediction.
 
-\section*{Acknowledgements}
-The author thanks the open-source maintainers of PyTorch Geometric, NetworkX,
-and the python-louvain community detection library.
+The principal limitation is that our guarantee is conditional on assumptions
+that deployment routinely violates. Exchangeability fails under concept drift;
+community assignment is unstable when attack communities evolve; and both fail
+by construction under an adversary who injects nodes to perturb the partition.
+We have stated these conditions explicitly rather than leaving them implicit,
+and we regard the honest reading of our theorem as converting a distributional
+assumption into a finite-sample guarantee whose scope is exactly as wide as that
+assumption holds.
+
+\paragraph{Future work.}
+Four directions are most promising.
+(1) \emph{Structural-entropy partitioning} — Mondrian CP faces a
+bias--variance trade-off in taxon granularity that Louvain does not expose as a
+control: coarse partitions give stable quantiles but weak conditioning, fine
+partitions the reverse. Minimising structural entropy \citep{zeng2025structural}
+instead yields an encoding tree in which granularity is an explicit level, so
+the partition could be selected at the depth where per-community calibration
+sets remain large enough to estimate a quantile reliably.
+(2) \emph{Federated FC-GNN} — extending FMCP to the federated GNN setting
+\citep{akgul25,dang24federated} where calibration data is distributed
+across clients without centralisation, which is the realistic configuration when
+telemetry cannot leave an organisational boundary.
+(3) \emph{Temporal FC-GNN} — incorporating non-exchangeable CP
+\citep{ncpnet25} to provide valid coverage under concept drift without
+retraining from scratch.
+(4) \emph{Adversarial robustness} — evaluating FMCP against node-injection and
+backdoor attacks \citep{gzoo2024, dshield2023}, which perturb the topology and
+therefore the very partition on which the conditional guarantee depends.
+
+\section*{Code availability}
+The implementation of FC-GNN, the evaluation harness for all nine compared
+models, and the scripts that regenerate every table and figure reported here are
+publicly available at \url{https://github.com/vinhqdang/fc-gnn}.

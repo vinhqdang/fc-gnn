@@ -5,8 +5,14 @@ Network intrusion detection, botnet identification, and IoT malware analysis
 are canonical cybersecurity tasks that operate over inherently
 \emph{graph-structured} data: traffic flows between hosts form edges, devices
 form nodes, and attack campaigns manifest as anomalous subgraph patterns.
-Graph Neural Networks (GNNs) have emerged as powerful classifiers for
-these tasks, achieving high accuracy on benchmarks such as CIC-IDS-2017
+The relational structure is not incidental. Lateral movement is defined by which
+hosts contact which others; command-and-control beaconing is defined by
+periodicity in a communication pattern; a distributed denial-of-service campaign
+is defined by convergence of many sources on one target. None of these is
+visible in an individual flow record considered in isolation, which is why graph
+representations have displaced purely tabular ones for these tasks.
+Graph Neural Networks (GNNs) have accordingly emerged as powerful classifiers,
+achieving high accuracy on benchmarks such as CIC-IDS-2017
 \citep{cicids2017}, UNSW-NB15 \citep{unswNB15}, and NF-BoT-IoT
 \citep{nfbotiot} — yet they suffer from two critical, simultaneously
 unresolved weaknesses.
@@ -16,6 +22,11 @@ Network telemetry is inherently imprecise: packet-level features exhibit
 quantisation noise, flow statistics are aggregated over variable windows,
 and labelling of attack vs.\ benign traffic is often soft or partially
 overlapping \citep{graphids}.
+The imprecision is not measurement error to be averaged away but a property of
+the domain. A long-lived encrypted session may be a backup job or an
+exfiltration channel; the flow-level evidence is frequently compatible with
+both, and the ground-truth labels supplied with public benchmarks are themselves
+the product of heuristic post-hoc attribution.
 Standard GNN classifiers produce crisp binary decisions that discard this
 inherent fuzziness, leading to brittle predictions and inflated
 false-alarm rates in production SOC deployments.
@@ -27,6 +38,25 @@ A security analyst receiving an alert has no principled bound on the
 probability that the true attack class lies within the model's output —
 making risk quantification impossible for compliance-sensitive
 (e.g., GDPR, NIS2) environments \citep{cp_survey}.
+Softmax confidence is not a substitute: modern networks are systematically
+overconfident, and a reported probability of $0.99$ carries no guarantee about
+the frequency with which such predictions are correct.
+
+These two weaknesses compound one another. A model that discards the ambiguity
+in its input will express unwarranted confidence in its output, and a model that
+offers no calibrated statement about that confidence gives the analyst no basis
+on which to triage. What an operator needs from an alert is not a single label
+but a defensible statement of the form ``the true class lies in this set with
+probability at least $1-\alpha$'', together with a human-readable account of
+which features drove the assessment.
+
+We argue further that a \emph{marginal} guarantee is insufficient for this
+setting. A detector can satisfy a $90\%$ coverage target averaged over all
+traffic while systematically under-covering a rare attack family, because the
+dominant benign class determines the average. Averaging is the wrong summary
+for a security operations centre: an alert concerning a rare family is not made
+trustworthy by the detector being well calibrated on benign traffic. The
+guarantee must be conditional on the region of the graph a host inhabits.
 
 \subsection{Research Gaps}
 
@@ -34,7 +64,17 @@ Significant progress has been made independently along two complementary
 lines: (a) \emph{conformal prediction for GNNs}
 \citep{cfgnn,daps,clarkson23,rrgnn} and (b) \emph{fuzzy GNN architectures}
 \citep{flgnn,fgat,fgnn_survey}.
-However, their explicit fusion remains an open problem.
+The first supplies distribution-free guarantees but operates on opaque softmax
+scores and yields no account of \emph{why} a set was returned; the second
+supplies inspectable rule bases but no statement about how often the true class
+is captured, since a fuzzy membership value carries no frequentist
+interpretation. The survey of \citet{fgnn_survey} identifies exactly this
+absence of guarantees as an open problem spanning the whole fuzzy GNN
+literature.
+Their explicit fusion remains an open problem, and it is not merely a matter of
+composition: a fuzzy architecture produces a graded membership vector rather
+than a probability, so the nonconformity score that mediates between the model
+and the conformal layer must itself be defined in fuzzy terms.
 Table~\ref{tab:gaps} positions FC-GNN against the five closest prior methods.
 
 \begin{table}[t]
@@ -66,23 +106,41 @@ This paper makes four contributions:
   message-passing layer incorporates a fuzzy-rule aggregation module that
   outputs a fuzzy membership distribution over classes per node, rather than
   a crisp softmax logit (Section~\ref{sec:method}).
+  Neighbourhood aggregation is performed by rule firing under a product T-norm
+  rather than by a fixed permutation-invariant operator, so the quantity
+  propagated between nodes is the degree to which each interpretable rule is
+  satisfied.
 
 \item \textbf{Fuzzy Mondrian Conformal Prediction (FMCP).}  A principled
   extension of Graph-Structured Mondrian CP \citep{rrgnn} to fuzzy
   nonconformity scores defined via a Sugeno-type fuzzy integral, producing
   calibrated prediction sets with per-cluster conditional coverage guarantees
   (Section~\ref{sec:fmcp}).
+  The Sugeno integral is the natural aggregation operator here because it
+  respects the ordinal structure of graded membership without presuming the
+  additivity that a probabilistic treatment would impose.
 
 \item \textbf{Coverage theorem.}  A finite-sample theorem proving that FC-GNN's
   prediction sets achieve at least $(1-\alpha)$ marginal coverage and
   conditional coverage within graph communities, with a slack term
   $\delta(|Q_m|) = O(|Q_m|^{-1/2})$ (Section~\ref{sec:theorem}).
+  We state the exchangeability and community-stability conditions the result
+  requires explicitly, and identify where each fails in deployment.
 
 \item \textbf{Cybersecurity benchmarks.}  Systematic evaluation on seven
   publicly available datasets spanning intrusion detection, botnet detection,
   and IoT malware, with temporal chronological splits and full ablation
   studies (Section~\ref{sec:experiments}).
+  Splits are chronological rather than random, so calibration and test data are
+  separated in time; this is a deliberately harsher protocol than the random
+  splits usual in the CP-GNN literature, and it is what exposes the difference
+  between marginal and conditional calibration.
 \end{enumerate}
+
+\paragraph{Reproducibility.}
+The full implementation, the evaluation harness, and the scripts that regenerate
+every table and figure in this paper are available at
+\url{https://github.com/vinhqdang/fc-gnn}.
 
 \subsection{Paper Structure}
 

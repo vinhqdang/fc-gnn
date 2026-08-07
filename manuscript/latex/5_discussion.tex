@@ -17,9 +17,41 @@ coverage — a cost that is mandatory in compliance-sensitive environments
 (GDPR Article 22, NIS2 Article 21) where coverage failure constitutes a
 material risk.
 
+It is worth being precise about why a smaller prediction set is not
+self-evidently better. Set size and coverage are not independent quantities
+that a method may optimise separately: any method can drive APSS towards one by
+raising its threshold, at the cost of dropping the true class more often. A set
+size is therefore interpretable only once validity has been established, and
+comparing APSS across methods that do not all attain the nominal level compares
+quantities of different kinds. This is the reason we report coverage first and
+efficiency second throughout Section~\ref{sec:experiments}, and the reason we
+regard the coverage--efficiency frontier rather than either axis alone as the
+correct object of comparison.
+
+The practical consequence for a security operations centre is a difference in
+failure mode rather than in average performance. A marginally calibrated
+detector fails silently and non-uniformly: its aggregate coverage looks
+acceptable while a specific attack family is systematically missed, and nothing
+in the reported metrics reveals which family. A community-conditional detector
+that returns a larger set fails visibly, by handing the analyst two or three
+candidate classes instead of one. The second failure is far cheaper to absorb,
+because it is legible at the point of triage.
+
 \subsection{Scalability}
 
 A detailed quantitative analysis of FC-GNN's scalability (training time, calibration time, and inference throughput) compared to baselines is provided in Section 4.8. While standard mini-batch training with neighbourhood sampling (GraphSAINT \citep{zeng20}) can scale the FMPL layer to $N \gg 10^4$ nodes, deploying FC-GNN in dynamic, high-throughput enterprise networks may still require incremental community detection algorithms to avoid re-computing Louvain communities from scratch during frequent graph updates.
+
+The asymmetry between the two costs is worth noting, because it determines where
+engineering effort should go. The fuzzy message-passing layer is a fixed
+per-epoch cost that mini-batching addresses by standard means. The Louvain
+partition is different in kind: it is comparatively cheap to compute once, but it
+must be \emph{refreshed} whenever the graph changes materially, and the
+conditional guarantee is defined relative to the partition in force at
+calibration time. A stale partition does not merely degrade accuracy; it
+invalidates the taxon on which the conditional coverage statement rests. The
+binding constraint in a dynamic deployment is therefore partition maintenance
+rather than model throughput, which is a further argument for hierarchical
+partitioning schemes whose granularity can be adjusted incrementally.
 
 \subsection{Exchangeability and Concept Drift}
 
@@ -38,6 +70,17 @@ conformal change-point detection \citep{cpp_coad} offers theoretical
 machinery to adjust $\Calpha$ dynamically without full recalibration,
 which we leave for future integration.
 
+We would stress that this is a limitation of the guarantee's scope rather than a
+defect of the method, and that it is shared by every conformal procedure. The
+theorem converts a distributional assumption into a finite-sample statement; it
+does not create validity where the assumption fails. The appropriate operational
+reading is that FC-GNN's guarantee holds \emph{between recalibrations}, with the
+recalibration interval set by observed drift rather than fixed a priori. A
+detector calibrated once and left running indefinitely does not retain its
+guarantee, and reporting a coverage figure obtained under a random split — as is
+customary in the CP-GNN literature — obscures this, because a random split
+places calibration and test points in the same temporal regime by construction.
+
 \subsection{Rule Complexity and Pruning}
 
 The mean number of active rules per node (rule complexity) is very low
@@ -49,6 +92,15 @@ intra-class feature diversity (e.g., CIC-IDS-2017 with 15 classes).
 Increasing $K$ from 16 to 32 or relaxing the $\ell_1$ penalty is expected
 to improve Macro-F1 at a moderate cost in explanation simplicity.
 
+The trade-off deserves to be stated as a design decision rather than a tuning
+detail, because the two objectives are genuinely opposed. An explanation is
+useful to an analyst in proportion to how few antecedents it cites; a classifier
+is accurate on heterogeneous attack families in proportion to how many distinct
+regions of feature space its rule base can represent. The sparsity penalty
+selects a point on that curve, and no setting is optimal for both ends. We
+report $K$ and the penalty weight explicitly so that the operating point is a
+visible parameter of the method rather than an artefact of defaults.
+
 \subsection{Limitations}
 
 Despite these advantages, FC-GNN has several limitations:
@@ -59,12 +111,22 @@ Despite these advantages, FC-GNN has several limitations:
       extreme class imbalance (${\sim}95\%$ benign).
       Class-weighted loss or SMOTE oversampling on the minority classes
       would improve this metric.
+      We report the figure without mitigation so that all compared methods
+      share one training protocol; a per-method tuned protocol would make the
+      comparison across Table~\ref{tab:f1_main} incommensurable.
 \item \textbf{No inductive evaluation on real PCAP data.}
       Our graph construction uses realistic synthetic statistics derived
       from the published feature distributions of each dataset.
       Direct evaluation on raw PCAP files requires a dedicated flow
       extraction pipeline (e.g., CICFlowMeter), which we leave for future
       work.
+      This is the most consequential limitation of the study: real traffic
+      differs from our construction in ways we do not model — heavy-tailed and
+      non-Gaussian marginals, correlated and partially missing features, and
+      topology shaped by routing and address translation rather than by a
+      generative process. The experiments therefore support relative
+      comparisons between methods under disclosed conditions, and should not be
+      read as absolute performance claims on the named captures.
 \item \textbf{Static $\lambda$ in Sugeno integral.}
       The $\lambda$ parameter is shared across all communities and
       trained globally.
@@ -72,4 +134,15 @@ Despite these advantages, FC-GNN has several limitations:
       dataset-specific co-occurrence patterns among attack families. \rev{Given that attack categories exhibit vastly different structural characteristics (e.g., dense propagation in botnets versus sparse behavioral chains in malware infections), an adaptive, community-specific $\lambda$ would likely improve calibration efficiency and is an important avenue for future research.}
 \item \rev{\textbf{Interpretability versus Causality.}
       While the fuzzy rules generated by FC-GNN provide empirical interpretability, they indicate structural \emph{correlation} rather than causal mechanisms. Under adversarial conditions, attackers may deliberately manipulate flow features to trigger misleading rules. Thus, the reliability of these explanations under adversarial feature manipulation requires further investigation.}
+      \rev{We note that this concern is sharper for an interpretable model than
+      for an opaque one: a rule base is an attack surface precisely because it
+      is legible, since an adversary who can predict which rules fire can shape
+      the justification presented to an analyst as well as the prediction
+      itself.}
+\item \textbf{Partition granularity.}
+      Louvain is applied at its default resolution, and communities smaller
+      than the minimum size fall back to the global quantile. Conditional
+      coverage is consequently not uniform across the partition: the
+      communities most likely to fall back are the small, rare ones, which are
+      also those for which conditioning would be most valuable.
 \end{enumerate}

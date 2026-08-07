@@ -1,92 +1,218 @@
 \section{Related Work}
 \label{sec:related}
 
+Our contribution sits at the intersection of three literatures that have
+developed largely independently: distribution-free uncertainty quantification
+via conformal prediction, fuzzy neural architectures for graphs, and machine
+learning for network security. We review each in turn, and in each case we
+identify not merely what has been done but what the accumulated body of work
+leaves unresolved for the deployment setting we target.
+
 \subsection{Conformal Prediction — Foundations}
 
-Conformal prediction (CP) \citep{angelopoulos21} provides distribution-free,
-finite-sample prediction sets satisfying marginal coverage
-$\Prob(y \in \Calpha(x)) \ge 1-\alpha$ for any pre-specified error rate
-$\alpha$.
-\citet{barber23} extended CP beyond exchangeability to handle covariate shift.
-\citet{cp_survey} survey CP comprehensively including a graph-data subsection.
-The present authors have applied CP to intrusion detection \citep{dang23ids}
-and botnet detection \citep{dang24botnet}, and developed CONFIDE for causal
-competing-risk settings \citep{dang26confide}.
+Conformal prediction (CP) \citep{angelopoulos21} converts any point predictor
+into a set-valued predictor with a finite-sample, distribution-free coverage
+guarantee: for a user-specified error rate $\alpha$, the returned set satisfies
+$\Prob(y \in \Calpha(x)) \ge 1-\alpha$ irrespective of the underlying data
+distribution and of whether the base model is well specified. The guarantee
+rests on a single assumption — exchangeability between the calibration sample
+and the test point — and this is precisely what makes CP attractive for
+security applications, where model misspecification is the norm rather than the
+exception and where distributional assumptions about attacker behaviour are
+untenable.
+
+The exchangeability requirement is also CP's principal limitation, and a
+substantial line of work has sought to relax it. \citet{barber23} develop
+weighted conformal prediction, which restores approximate validity under
+covariate shift by reweighting calibration points according to a likelihood
+ratio between training and test distributions; the coverage loss is bounded by
+the total-variation distance between the two. This matters here because
+security traffic is non-stationary by construction: adversaries adapt, network
+topologies evolve, and the deployment distribution drifts away from whatever
+was captured at calibration time. \citet{cp_survey} survey the field from a
+data-centric perspective and note that graph-structured data poses a distinctive
+difficulty, since the interdependence induced by edges violates the i.i.d.\
+intuition that motivates the exchangeability condition even when the condition
+itself can be salvaged.
+
+Within cybersecurity specifically, the present authors have applied CP to
+intrusion detection \citep{dang23ids} and botnet detection
+\citep{dang24botnet}, and developed CONFIDE for causal competing-risk settings
+\citep{dang26confide}. Those works operate on tabular flow representations and
+therefore inherit neither the benefits nor the complications of graph structure;
+the present paper is a deliberate step towards the graph setting, where the
+relational structure that makes attacks detectable is also what complicates the
+statistical guarantee.
 
 \subsection{Conformal Prediction for Graph Neural Networks}
 
-\citet{cfgnn} introduced CF-GNN, the de-facto baseline for CP on graphs.
-They derive a \emph{permutation-invariance condition} under which calibration
-nonconformity scores are exchangeable and hence CP is valid; they also propose
-a topology-aware score correction.
-\citet{daps} proposed DAPS, which diffuses conformity scores over the graph
-using homophily weighting, improving prediction-set tightness on node
-classification.
-\citet{clarkson23} studied structure-aware inductive node CP.
-\citet{snaps} introduced SNAPS, aggregating scores from feature-similar
-neighbours to improve singleton-hit proportion.
+Transferring CP to graphs is not a matter of applying the standard recipe to a
+new model class. In transductive node classification, the prediction for one
+node depends on the features and labels of others through message passing, so
+calibration and test scores are not independent, and the exchangeability
+argument must be re-established rather than assumed.
 
-Among the closest to our work, \citet{rrgnn} proposed RR-GNN, which uses
-\emph{Graph-Structured Mondrian CP} — partitioning calibration nodes into
-graph communities and computing per-community quantiles.
-This yields conditional coverage guarantees within communities and motivates
-the FMCP component of FC-GNN.
-\citet{rrgnn} do not, however, incorporate fuzzy aggregation or cybersecurity
-evaluation.
+\citet{cfgnn} resolved this with CF-GNN, now the de-facto baseline. Their key
+technical contribution is a \emph{permutation-invariance condition}: if the
+model treats calibration and test nodes symmetrically — which holds for standard
+message-passing architectures under a random calibration/test split — then the
+nonconformity scores are exchangeable and split CP remains valid despite the
+statistical coupling induced by the graph. They further propose a topology-aware
+correction that shrinks prediction sets by exploiting the observation that a
+node's optimal set size correlates with its neighbourhood's.
 
-Other CP-GNN work includes federated settings \citep{akgul25}, temporal GNNs
-\citep{ncp2025,ncpnet25}, and conformal training \citep{confrank25}.
-\citet{crcs_gad} extend CP to graph anomaly detection with risk control.
-\citet{fuzzy_cp_evalue} develop fuzzy prediction sets via e-values in
-non-graph settings, providing a theoretical bridge to our approach.
+Subsequent work has largely pursued efficiency, taking validity as settled.
+\citet{daps} propose DAPS, which diffuses conformity scores across edges under a
+homophily assumption, on the intuition that adjacent nodes should receive
+similar scores; this tightens sets when homophily holds. \citet{snaps} pursue a
+related idea from a different angle, aggregating scores from nodes that are
+similar in \emph{feature} space rather than adjacent in the graph, improving the
+singleton-hit proportion — the fraction of nodes receiving an unambiguous
+single-class prediction, which is what an analyst can act on directly.
+\citet{clarkson23} addresses the inductive regime, where test nodes arrive after
+calibration and the transductive exchangeability argument no longer applies
+directly.
+
+Our own results (Section~\ref{sec:experiments}) suggest a caveat that this line
+of work has not emphasised: score-smoothing operations that improve average
+efficiency can degrade calibration, because the smoothed score is no longer a
+function of the node alone and the exchangeability argument that licensed the
+guarantee is weakened. We observe exactly this behaviour for the
+diffusion-based and similarity-based methods under chronological splits.
+
+Closest to our work is RR-GNN \citep{rrgnn}, which introduces
+\emph{Graph-Structured Mondrian CP}. Rather than computing one global quantile,
+RR-GNN partitions nodes into graph communities and computes a quantile per
+community, yielding coverage conditional on community membership. This is the
+right structural insight for our setting, and FMCP builds directly on it: a
+marginal guarantee averaged over all traffic can be satisfied while a particular
+attack family is systematically under-covered, and it is precisely the rare
+families that matter operationally. RR-GNN, however, uses a residual-reweighted
+softmax score, incorporates no fuzzy reasoning, produces no human-readable
+explanation, and is not evaluated on cybersecurity data.
+
+Further work extends CP-GNNs to federated settings \citep{akgul25}, temporal
+graphs \citep{ncp2025,ncpnet25}, and conformal-aware training
+\citep{confrank25}, in which the CP objective is folded into the loss so the
+model learns to produce efficiently calibratable scores rather than being
+calibrated post hoc. \citet{crcs_gad} extend conformal risk control to graph
+anomaly detection, targeting a bound on a general loss rather than on
+miscoverage. \citet{fuzzy_cp_evalue} construct \emph{fuzzy} prediction sets via
+e-values in the non-graph setting, replacing the binary in/out decision with a
+graded membership; this is the closest theoretical antecedent to combining fuzzy
+reasoning with conformal inference, although it does not address graphs and does
+not use a fuzzy integral as the nonconformity measure.
 
 \subsection{Fuzzy Graph Neural Networks}
 
-\citet{flgnn} proposed FL-GNN, which defines a Cartesian-product rule base
-in the message-passing layer, enabling interpretable IF-THEN explanations.
-Our fuzzy message-passing layer (FMPL) directly extends FL-GNN's rule base,
-adding Gaussian membership functions, the product T-norm, and centroid
-defuzzification.
-\citet{fgat} extended fuzzy logic to graph attention (FGAT), using fuzzy
-rough-set attention weights with dynamic negative sampling.
-\citet{mfgat} proposed MFGAT with multi-view fuzzy attention.
-A comprehensive survey by \citet{fgnn_survey} identifies the absence of
-coverage guarantees as a key open problem across all fuzzy GNN architectures
-— a gap we directly address.
-\citet{firegnn} developed FireGNN with trainable neuro-symbolic fuzzy rules,
-and \citet{fgenconv} applied explainable fuzzy GNNs to infrastructure
-anomaly detection.
-The present authors applied fuzzy embeddings to software-defined network NIDS
-in \citep{dang24fuzzy}.
+Fuzzy set theory offers a principled treatment of the graded, partially
+overlapping category membership that characterises network telemetry, where the
+boundary between benign and malicious traffic is genuinely indistinct rather
+than merely uncertain.
+
+\citet{flgnn} proposed FL-GNN, which embeds a Cartesian-product fuzzy rule base
+inside the message-passing layer so that aggregation is performed by rule firing
+rather than by a fixed permutation-invariant operator. The appeal is that the
+learned rules are inspectable: each is an IF--THEN statement over membership
+functions, so a prediction can be traced to the rules that produced it. Our
+fuzzy message-passing layer extends this construction with Gaussian membership
+functions, the product T-norm, and centroid defuzzification.
+
+Fuzzy reasoning has also been combined with attention. \citet{fgat} use fuzzy
+rough-set attention weights with dynamic negative sampling for link prediction,
+and \citet{mfgat} extend this to multiple views with learnable global pooling.
+\citet{firegnn} pursue a neuro-symbolic direction with trainable IF--THEN rules,
+and \citet{fgenconv} apply explainable fuzzy GNNs to leak detection in water
+distribution networks — an infrastructure-anomaly task structurally analogous to
+ours, in that both require an operator to act on an alert rather than merely
+record it. The present authors applied fuzzy embeddings to software-defined
+network intrusion detection in \citep{dang24fuzzy}.
+
+The survey of \citet{fgnn_survey} is directly relevant to our motivation. It
+identifies the absence of formal guarantees as an open problem cutting across
+the entire fuzzy GNN literature: these architectures quantify uncertainty in the
+sense of producing graded memberships, but a membership value carries no
+frequentist interpretation and supports no statement about how often the true
+class is captured. Fuzziness and calibration are distinct properties, and
+providing the former does not supply the latter. This is the gap FC-GNN
+addresses, and it is why the conformal layer is not an optional add-on but the
+component that converts graded output into an actionable guarantee.
 
 \subsection{GNNs for Cybersecurity}
 
-\citet{graphids} achieved 99.98\% PR-AUC on NF-BoT-IoT using self-supervised
-E-GraphSAGE.
-\citet{gnnids} proposed a hybrid static-dynamic graph IDS.
-\citet{xgnid} combined heterogeneous GNN with LLM for dual-modality NIDS.
-Various GNN-IDS architectures have been surveyed in \citep{gnn_ids_survey}.
-The authors previously proposed GNN-based NIDS baselines in
-\citep{dang23wifi} and federated IoT malware detection in
-\citep{dang24federated}.
-\rev{As GNNs see wider deployment in cybersecurity, their robustness against graph adversarial threats has become a critical concern. Recent literature explores vulnerabilities such as node injection attacks and corresponding defenses (e.g., GZOO, DShield) \citep{gzoo2024, dshield2023}. Furthermore, structural entropy has emerged as a complementary theoretical perspective for understanding graph complexity and structural anomalies, which is highly relevant for proactive botnet detection \citep{zeng2025structural}.}
+Graph representations are natural for network security because attacks manifest
+relationally: lateral movement, command-and-control beaconing and distributed
+denial of service are all defined by communication structure rather than by any
+single flow.
+
+\citet{graphids} report 99.98\% PR-AUC on NF-BoT-IoT with a self-supervised
+E-GraphSAGE encoder combined with a transformer autoencoder, training without
+attack labels — an important property given how quickly labelled attack data
+becomes stale. \citet{gnnids} combine a static attack graph encoding known
+vulnerability paths with dynamic telemetry, and \citet{xgnid} pair a
+heterogeneous GNN with a language model to generate natural-language alert
+descriptions. The survey of \citet{gnn_ids_survey} covers the broader landscape.
+The present authors previously proposed GNN-based NIDS baselines
+\citep{dang23wifi} and federated IoT malware detection \citep{dang24federated}.
+
+A recurring pattern in this literature is that headline accuracy is very high —
+frequently above 99\% — while deployment experience reports persistent
+false-alarm burden. The discrepancy is informative: aggregate accuracy on a
+benchmark with a dominant benign class says little about behaviour on the rare
+classes that generate actionable alerts, which is an argument for reporting
+class-conditional or community-conditional quantities rather than aggregates,
+and is the motivation for the conditional coverage gap we adopt as our primary
+calibration metric.
+
+\rev{As GNNs see wider deployment in cybersecurity, their robustness against
+graph adversarial threats has become a critical concern. Recent literature
+explores vulnerabilities such as node injection attacks and corresponding
+defences (e.g., GZOO, DShield) \citep{gzoo2024, dshield2023}. Node injection is
+the realistic threat model for network telemetry, since an attacker controls the
+hosts it owns and the flows it emits but not the records of other hosts; such an
+attack bears on FC-GNN at two points, in that it violates the exchangeability
+premise of the conformal guarantee and perturbs the topology on which the
+community partition depends. Furthermore, structural entropy has emerged as a
+complementary theoretical perspective for understanding graph complexity and
+structural anomalies, which is highly relevant for proactive botnet detection
+\citep{zeng2025structural}. This is of direct interest for the taxon-selection
+problem that Mondrian CP leaves open: modularity-based partitioning optimises at
+a single resolution, whereas minimising structural entropy yields a hierarchy in
+which granularity becomes an explicit, tunable level.}
 
 \subsection{Conformal Prediction in Cybersecurity}
 
-\citet{botnet_cp} applied a CP rejection layer to botnet classification,
-rejecting 58\% of incorrect predictions on ISCX.
-\citet{cp_drift} showed that CP pseudo-labels become inconsistent under heavy
-concept drift, motivating our temporal split protocol.
-\citet{damba26} extended open-set CP to zero-day IIoT detection.
-\citet{cp_cps26} proposed sliding-window temporal quantile CP for
-cyber-physical system anomaly detection.
+A smaller body of work applies CP directly to security tasks.
+\citet{botnet_cp} add a conformal rejection layer to a botnet classifier,
+abstaining when the prediction set is uninformative and thereby rejecting 58\%
+of would-be incorrect predictions on ISCX — a concrete demonstration that
+calibrated abstention is more useful operationally than a forced decision.
+\citet{damba26} extend open-set CP to zero-day detection in industrial IoT,
+where the true class may be absent from the training taxonomy altogether.
+\citet{cp_cps26} propose sliding-window temporal quantile CP for cyber-physical
+systems, refreshing the conformal threshold as the process evolves.
+
+\citet{cp_drift} report the most important negative result for our purposes:
+under heavy concept drift, CP-derived pseudo-labels become inconsistent, so the
+guarantee degrades precisely in the regime where it is most needed. This
+directly motivates our chronological split protocol, under which calibration and
+test data are separated in time rather than sampled at random, and it is the
+reason we regard random-split evaluations of CP-GNNs as optimistic for security
+deployment.
 
 \subsection{Fuzzy Methods in Cybersecurity}
 
-\citet{fuzzy_iot} combined fuzzy logic with CNN ensembles for IoT NIDS,
-achieving 99.72\% on NSL-KDD.
-\citet{fuzzy_sdn} proposed hunger-games-optimised fuzzy-rule deep learning
-for SDN-enabled IoT environments.
-\citet{gfs_gan} evolved fuzzy rules with adversarial training for IDS.
-These works confirm the practical value of fuzzy reasoning for cybersecurity
-but lack any CP coverage guarantees.
+Fuzzy reasoning has a long history in intrusion detection, predating the current
+generation of graph methods. \citet{fuzzy_iot} combine fuzzy logic with CNN
+ensembles for IoT NIDS, reporting 99.72\% on NSL-KDD; \citet{fuzzy_sdn} optimise
+a fuzzy-rule deep architecture for SDN-enabled IoT using a hunger-games search;
+and \citet{gfs_gan} evolve fuzzy rules under adversarial training, using
+generated attack traffic to harden the rule base.
+
+These results establish that fuzzy reasoning is practically effective for
+security data and that its rule bases are valued for interpretability. None
+provides a coverage guarantee. Taken together with the CP literature reviewed
+above — which provides guarantees but produces opaque scores and no rule-level
+explanation — this defines the gap the present work addresses: the two
+properties have been pursued separately, and an operator needs both from the
+same system.
